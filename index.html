@@ -140,7 +140,7 @@
       cursor: pointer;
     }
 
-    /* Gorgeous Profile Card UI */
+    /* Profile UI */
     .profile-card {
       background: linear-gradient(145deg, #0f172a 0%, #1e1b4b 100%);
       border: 2px solid #38bdf8;
@@ -265,7 +265,7 @@
       cursor: pointer;
     }
 
-    /* Wallet Custom UI (Blogspot Style) */
+    /* Wallet UI */
     .wallet-card {
       background: #111827;
       border: 1px solid #1f2937;
@@ -347,6 +347,115 @@
       font-weight: bold;
       font-size: 14px;
       cursor: pointer;
+    }
+
+    /* Animated Live Withdrawals UI */
+    .withdraw-history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .withdraw-history-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #f3f4f6;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #10b981;
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 8px #10b981;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.2); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .withdraw-feed-container {
+      max-height: 220px;
+      overflow-y: hidden;
+      position: relative;
+    }
+
+    .withdraw-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background: #0b0e14;
+      border: 1px solid #1f2937;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      animation: fadeInDown 0.5s ease-out;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-15px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .withdraw-user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .withdraw-user-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(56, 189, 248, 0.1);
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+    }
+
+    .withdraw-user-details h6 {
+      font-size: 12px;
+      color: #fff;
+    }
+
+    .withdraw-user-details p {
+      font-size: 10px;
+      color: #94a3b8;
+    }
+
+    .withdraw-amount-status {
+      text-align: right;
+    }
+
+    .withdraw-amount-status span {
+      font-size: 12px;
+      font-weight: bold;
+      color: #10b981;
+      display: block;
+    }
+
+    .withdraw-amount-status small {
+      font-size: 9px;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+      padding: 2px 6px;
+      border-radius: 10px;
     }
 
     /* Bottom Navigation Bar */
@@ -461,7 +570,7 @@
     </div>
   </div>
 
-  <!-- WALLET TAB (Blogspot Style UI) -->
+  <!-- WALLET TAB -->
   <div id="wallet-tab" class="tab-content">
     
     <!-- Balance Card -->
@@ -491,6 +600,23 @@
         <label>USDT Address (TRC20 / TON)</label>
         <input type="text" placeholder="Paste your USDT wallet address">
         <button class="btn-withdraw" onclick="alert('Withdrawal request submitted!')">Submit Withdraw Request</button>
+      </div>
+    </div>
+
+    <!-- Live Animated Withdrawals Feed -->
+    <div class="wallet-card">
+      <div class="withdraw-history-header">
+        <div class="withdraw-history-title">
+          <i class="fas fa-bolt" style="color: #f59e0b;"></i>
+          <span>Live Payouts</span>
+        </div>
+        <div style="font-size: 10px; color: #10b981; display:flex; align-items:center; gap:5px;">
+          <span class="live-dot"></span> LIVE FEED
+        </div>
+      </div>
+
+      <div class="withdraw-feed-container" id="live-withdraw-feed">
+        <!-- Live Items appended dynamically via Javascript -->
       </div>
     </div>
 
@@ -555,6 +681,9 @@
         // Set Referral Link
         document.getElementById('ref-link').value = `https://t.me/PenguinEarnBot?start=${userId}`;
       }
+      
+      // Start Live Withdrawal Generator
+      initLiveWithdrawals();
     });
 
     // Switch Navigation Tabs Function
@@ -573,6 +702,52 @@
       copyText.setSelectionRange(0, 99999);
       navigator.clipboard.writeText(copyText.value);
       alert("Referral link copied to clipboard!");
+    }
+
+    // Live Simulated Withdrawal Feed Engine
+    const dummyUsers = ["Alexander K.", "Rahim Uddin", "Michael S.", "Elena V.", "David Miller", "Carlos R.", "Hassan Ali", "Sarah Jenkins", "Tariq Mahmood", "Anna P."];
+    const networks = ["TON", "TRC20", "BEP20"];
+    const amounts = ["1.00", "2.50", "5.00", "10.00", "1.50", "3.00"];
+
+    function addLiveWithdrawalItem() {
+      const feed = document.getElementById('live-withdraw-feed');
+      if (!feed) return;
+
+      const randomUser = dummyUsers[Math.floor(Math.random() * dummyUsers.length)];
+      const randomNet = networks[Math.floor(Math.random() * networks.length)];
+      const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
+
+      const newItem = document.createElement('div');
+      newItem.className = 'withdraw-item';
+      newItem.innerHTML = `
+        <div class="withdraw-user-info">
+          <div class="withdraw-user-icon"><i class="fas fa-check-circle"></i></div>
+          <div class="withdraw-user-details">
+            <h6>${randomUser}</h6>
+            <p>Just now • ${randomNet}</p>
+          </div>
+        </div>
+        <div class="withdraw-amount-status">
+          <span>+$${randomAmount} USDT</span>
+          <small>Paid</small>
+        </div>
+      `;
+
+      feed.insertBefore(newItem, feed.firstChild);
+
+      // Keep maximum 4 items
+      if (feed.children.length > 4) {
+        feed.removeChild(feed.lastChild);
+      }
+    }
+
+    function initLiveWithdrawals() {
+      // Add initial items
+      for (let i = 0; i < 3; i++) {
+        addLiveWithdrawalItem();
+      }
+      // Auto add new item every 6 seconds dynamically
+      setInterval(addLiveWithdrawalItem, 6000);
     }
   </script>
 </body>
