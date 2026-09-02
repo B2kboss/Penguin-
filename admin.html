@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PenguinEarn - Blogger Admin Panel</title>
+  <title>PenguinEarn - Admin Control Panel</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
@@ -14,7 +14,7 @@
     }
 
     body {
-      background-color: #0b0e14;
+      background-color: #0b0f19;
       color: #ffffff;
       padding: 15px;
       padding-bottom: 50px;
@@ -46,7 +46,7 @@
 
     .input-box {
       width: 100%;
-      background: #0b0e14;
+      background: #0b0f19;
       border: 1px solid #374151;
       padding: 12px;
       border-radius: 8px;
@@ -72,289 +72,58 @@
     /* Dashboard Layout */
     #admin-dashboard {
       display: none;
-      max-width: 800px;
+      max-width: 600px;
       margin: 0 auto;
     }
 
-    .header-bar {
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 15px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      background: #111827;
-      padding: 15px 20px;
-      border-radius: 14px;
-      border: 1px solid #1f2937;
+      gap: 8px;
+    }
+
+    /* Admin Stats Grid */
+    .admin-stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
       margin-bottom: 20px;
     }
 
-    .header-bar h3 {
-      font-size: 18px;
-      color: #38bdf8;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .btn-logout {
-      background: #ef4444;
-      color: #fff;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 12px;
-      cursor: pointer;
-    }
-
-    /* Blogger Style Publisher Form */
-    .blogger-card {
+    .admin-stat-card {
       background: #111827;
       border: 1px solid #1f2937;
       border-radius: 14px;
-      padding: 20px;
-      margin-bottom: 25px;
+      padding: 18px 15px;
+      text-align: center;
+      cursor: pointer;
     }
 
-    .blogger-header {
-      font-size: 16px;
-      font-weight: 600;
-      color: #f3f4f6;
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      border-bottom: 1px solid #1f2937;
-      padding-bottom: 10px;
+    .admin-stat-card i {
+      font-size: 24px;
+      margin-bottom: 8px;
     }
 
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 12px;
-      color: #9ca3af;
-      margin-bottom: 6px;
-      font-weight: 600;
-    }
-
-    .form-group input, .form-group textarea, .form-group select {
-      width: 100%;
-      background: #0b0e14;
-      border: 1px solid #374151;
-      padding: 12px;
-      border-radius: 8px;
+    .admin-stat-card h3 {
+      font-size: 22px;
       color: #fff;
-      font-size: 13px;
-      outline: none;
-    }
-
-    .form-group textarea {
-      height: 90px;
-      resize: vertical;
-    }
-
-    .btn-publish {
-      background: #10b981;
-      color: #fff;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 8px;
       font-weight: bold;
-      font-size: 14px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      width: 100%;
-      justify-content: center;
     }
 
-    /* Published Posts List */
-    .posts-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .post-item {
-      background: #0b0e14;
-      border: 1px solid #1f2937;
-      padding: 15px;
-      border-radius: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .post-info h5 {
-      font-size: 14px;
-      color: #38bdf8;
-      margin-bottom: 4px;
-    }
-
-    .post-info p {
+    .admin-stat-card p {
       font-size: 11px;
       color: #9ca3af;
-      margin-bottom: 6px;
+      margin-top: 4px;
     }
 
-    .post-info span {
-      font-size: 10px;
-      background: rgba(16, 185, 129, 0.2);
-      color: #10b981;
-      padding: 2px 8px;
-      border-radius: 10px;
-    }
-
-    .btn-delete {
-      background: rgba(239, 68, 68, 0.2);
-      color: #ef4444;
-      border: 1px solid #ef4444;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 11px;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Login Screen -->
-  <div id="login-screen">
-    <h2><i class="fas fa-blog"></i> Blogger Admin</h2>
-    <p>Enter secret password to manage PenguinEarn</p>
-    <input type="password" id="admin-pass" class="input-box" placeholder="Enter Password">
-    <button class="btn-login" onclick="checkLogin()">Login Panel</button>
-  </div>
-
-  <!-- Dashboard -->
-  <div id="admin-dashboard">
-    
-    <div class="header-bar">
-      <h3><i class="fab fa-blogger"></i> Blogger Dashboard</h3>
-      <button class="btn-logout" onclick="logout()">Logout</button>
-    </div>
-
-    <!-- Create Post / Task (Blogger Style) -->
-    <div class="blogger-card">
-      <div class="blogger-header">
-        <i class="fas fa-pen-square" style="color:#38bdf8;"></i>
-        <span>Create New Task / Post</span>
-      </div>
-
-      <div class="form-group">
-        <label>Task Title / Title (শিরোনাম)</label>
-        <input type="text" id="post-title" placeholder="e.g. Join Telegram Channel">
-      </div>
-
-      <div class="form-group">
-        <label>Target URL / Link (যে লিঙ্কে ইউজার যাবে)</label>
-        <input type="text" id="post-link" placeholder="https://t.me/yourchannel">
-      </div>
-
-      <div class="form-group">
-        <label>Reward Coins (কয়েন পয়েন্ট)</label>
-        <input type="number" id="post-coins" placeholder="100">
-      </div>
-
-      <div class="form-group">
-        <label>Description / Instructions (সংক্ষিপ্ত বিবরণ)</label>
-        <textarea id="post-desc" placeholder="Write instructions for users..."></textarea>
-      </div>
-
-      <button class="btn-publish" onclick="publishPost()">
-        <i class="fas fa-paper-plane"></i> Publish Post
-      </button>
-    </div>
-
-    <!-- Published List -->
-    <div class="blogger-card">
-      <div class="blogger-header">
-        <i class="fas fa-list-alt" style="color:#f59e0b;"></i>
-        <span>Published Tasks / Posts</span>
-      </div>
-
-      <div class="posts-list" id="posts-container">
-        <!-- Dynamic Posts List -->
-      </div>
-    </div>
-
-  </div>
-
-  <script>
-    const ADMIN_PASSWORD = "admin123";
-
-    function checkLogin() {
-      const inputPass = document.getElementById('admin-pass').value;
-      if (inputPass === ADMIN_PASSWORD) {
-        document.getElementById('login-screen').style.display = 'none';
-        document.getElementById('admin-dashboard').style.display = 'block';
-        renderPosts();
-      } else {
-        alert("Wrong Password!");
-      }
-    }
-
-    function logout() {
-      document.getElementById('admin-dashboard').style.display = 'none';
-      document.getElementById('login-screen').style.display = 'block';
-    }
-
-    // Default posts array
-    let posts = [
-      { id: 1, title: "Join Official Telegram Channel", link: "https://t.me/example", coins: 100, desc: "Join and stay active." },
-      { id: 2, title: "Visit Website (15s)", link: "https://example.com", coins: 50, desc: "Stay 15 seconds on website." }
-    ];
-
-    function renderPosts() {
-      const container = document.getElementById('posts-container');
-      container.innerHTML = '';
-
-      posts.forEach((post, index) => {
-        const item = document.createElement('div');
-        item.className = 'post-item';
-        item.innerHTML = `
-          <div class="post-info">
-            <h5>${post.title}</h5>
-            <p>${post.desc}</p>
-            <span>+${post.coins} COINS</span>
-          </div>
-          <button class="btn-delete" onclick="deletePost(${index})"><i class="fas fa-trash"></i> Delete</button>
-        `;
-        container.appendChild(item);
-      });
-    }
-
-    function publishPost() {
-      const title = document.getElementById('post-title').value;
-      const link = document.getElementById('post-link').value;
-      const coins = document.getElementById('post-coins').value;
-      const desc = document.getElementById('post-desc').value;
-
-      if (!title || !link || !coins) {
-        alert("Please fill Title, Link, and Coins!");
-        return;
-      }
-
-      posts.unshift({ id: Date.now(), title, link, coins, desc: desc || 'Complete task to earn reward.' });
-      renderPosts();
-
-      // Clear input fields
-      document.getElementById('post-title').value = '';
-      document.getElementById('post-link').value = '';
-      document.getElementById('post-coins').value = '';
-      document.getElementById('post-desc').value = '';
-
-      alert("Post published successfully!");
-    }
-
-    function deletePost(index) {
-      if (confirm("Delete this post?")) {
-        posts.splice(index, 1);
-        renderPosts();
-      }
-    }
-  </script>
-</body>
-</html>
+    /* Card Containers */
+    .admin-card {
+      background: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 16px;
+      padding: 18px;
+      margin-
