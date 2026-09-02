@@ -11,7 +11,14 @@ logging.basicConfig(
 )
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("👋 Hello! PenguinEarn Bot is online 24/7.")
+    await update.message.reply_text("    welcome_text = """🐧 Welcome to PenguinEarn Official Bot!
+
+🔥 Earn free coins daily
+🏆 Boost your rank on the Waitlist
+💸 Instant USDT Payouts
+
+👇 Click below to enter the App!"""
+")
 
 if __name__ == '__main__':
     app = ApplicationBuilder().token(BOT_TOKEN).build()
