@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PenguinEarn - Admin Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: #0b0e14;
+      color: #ffffff;
+      padding: 15px;
+      padding-bottom: 50px;
+    }
+
+    /* Admin Login Screen */
+    #login-screen {
+      max-width: 380px;
+      margin: 80px auto;
+      background: #111827;
+      padding: 30px 20px;
+      border-radius: 16px;
+      border: 1px solid #1f2937;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+
+    #login-screen h2 {
+      font-size: 20px;
+      color: #38bdf8;
+      margin-bottom: 8px;
+    }
+
+    #login-screen p {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-bottom: 20px;
+    }
+
+    .input-box {
+      width: 100%;
+      background: #0b0e14;
+      border: 1px solid #374151;
+      padding: 12px;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      margin-bottom: 15px;
+      outline: none;
+      text-align: center;
+    }
+
+    .btn-login {
+      width: 100%;
+      background: #0284c7;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    /* Dashboard Layout */
+    #admin-dashboard {
+      display: none;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #111827;
+      padding: 15px 20px;
+      border-radius: 14px;
+      border: 1px solid #1f2937;
+      margin-bottom: 20px;
+    }
+
+    .header-bar h3 {
+      font-size: 18px;
+      color: #38bdf8;
+    }
+
+    .btn-logout {
+      background: #ef4444;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: #111827;
+      border: 1px solid #1f2937;
+      padding: 15px 10px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .stat-card i {
+      font-size: 20px;
+      color: #38bdf8;
+      margin-bottom: 6px;
+    }
+
+    .stat-card h4 {
+      font-size: 18px;
+      color: #fff;
+    }
+
+    .stat-card p {
+      font-size: 10px;
+      color: #9ca3af;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* Section Box */
+    .admin-card {
+      background: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f3f4f6;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Form Fields */
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 5px;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      background: #0b0e14;
+      border: 1px solid #374151;
+      padding: 10px;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: #10b981;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 13px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    /* Tables */
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      text-align: left;
+    }
+
+    th {
+      background: #1f2937;
+      color: #9ca3af;
+      padding: 10px;
+      font-weight: 600;
+    }
+
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #1f2937;
+      color: #e5e7eb;
+    }
+
+    .badge-pending {
+      background: rgba(245, 158, 11, 0.2);
+      color: #f59e0b;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-size: 10px;
+    }
+
+    .btn-approve {
+      background: #10b981;
+      color: #fff;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 11px;
+    }
+
+    .btn-reject {
+      background: #ef4444;
+      color: #fff;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 11px;
+      margin-left: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login Screen -->
+  <div id="login-screen">
+    <h2><i class="fas fa-user-shield"></i> Admin Access</h2>
+    <p>Enter secret password to manage PenguinEarn</p>
+    <input type="password" id="admin-pass" class="input-box" placeholder="Enter Password">
+    <button class="btn-login" onclick="checkLogin()">Unlock Admin Panel</button>
+  </div>
+
+  <!-- Main Admin Dashboard -->
+  <div id="admin-dashboard">
+    
+    <!-- Top Bar -->
+    <div class="header-bar">
+      <h3><i class="fas fa-sliders-h"></i> Admin Control</h3>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <i class="fas fa-users"></i>
+        <h4 id="stat-users">1,240</h4>
+        <p>Total Users</p>
+      </div>
+      <div class="stat-card">
+        <i class="fas fa-clock"></i>
+        <h4 id="stat-pending">8</h4>
+        <p>Pending Withdraw</p>
+      </div>
+      <div class="stat-card">
+        <i class="fas fa-check-circle" style="color:#10b981;"></i>
+        <h4 id="stat-paid">$450.0</h4>
+        <p>Total Paid</p>
+      </div>
+    </div>
+
+    <!-- Pending Withdrawals Management -->
+    <div class="admin-card">
+      <div class="card-title">
+        <i class="fas fa-hand-holding-usd" style="color:#f59e0b;"></i>
+        <span>Pending Withdrawal Requests</span>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Amount</th>
+              <th>Address</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="withdraw-table-body">
+            <tr>
+              <td>7301714914</td>
+              <td>$1.00 USDT</td>
+              <td><code>TQ9a...7xK2</code></td>
+              <td>
+                <button class="btn-approve" onclick="approveWithdraw(this)">Approve</button>
+                <button class="btn-reject" onclick="rejectWithdraw(this)">Reject</button>
+              </td>
+            </tr>
+            <tr>
+              <td>5891204122</td>
+              <td>$2.50 USDT</td>
+              <td><code>EQC...mK9P</code></td>
+              <td>
+                <button class="btn-approve" onclick="approveWithdraw(this)">Approve</button>
+                <button class="btn-reject" onclick="rejectWithdraw(this)">Reject</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Create New Task Card -->
+    <div class="admin-card">
+      <div class="card-title">
+        <i class="fas fa-plus-circle" style="color:#38bdf8;"></i>
+        <span>Add New Task for Users</span>
+      </div>
+
+      <div class="form-group">
+        <label>Task Title</label>
+        <input type="text" id="task-title" placeholder="e.g. Subscribe Youtube Channel">
+      </div>
+
+      <div class="form-group">
+        <label>Task Link (URL)</label>
+        <input type="text" id="task-link" placeholder="https://t.me/yourchannel">
+      </div>
+
+      <div class="form-group">
+        <label>Reward Coins</label>
+        <input type="number" id="task-coins" placeholder="100">
+      </div>
+
+      <button class="btn-submit" onclick="addNewTask()">Publish Task</button>
+    </div>
+
+    <!-- Manage User Balance Card -->
+    <div class="admin-card">
+      <div class="card-title">
+        <i class="fas fa-coins" style="color:#c084fc;"></i>
+        <span>Manual User Coins Modifier</span>
+      </div>
+
+      <div class="form-group">
+        <label>Telegram User ID</label>
+        <input type="text" id="mod-userid" placeholder="Enter Telegram User ID">
+      </div>
+
+      <div class="form-group">
+        <label>Action</label>
+        <select id="mod-action">
+          <option value="add">Add Coins</option>
+          <option value="subtract">Deduct Coins</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Amount of Coins</label>
+        <input type="number" id="mod-amount" placeholder="e.g. 5000">
+      </div>
+
+      <button class="btn-submit" style="background:#0284c7;" onclick="modifyUserCoins()">Update Coins</button>
+    </div>
+
+  </div>
+
+  <script>
+    const ADMIN_PASSWORD = "admin123"; // 🔑 Change Password Here!
+
+    function checkLogin() {
+      const inputPass = document.getElementById('admin-pass').value;
+      if (inputPass === ADMIN_PASSWORD) {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('admin-dashboard').style.display = 'block';
+      } else {
+        alert("Wrong Admin Password!");
+      }
+    }
+
+    function logout() {
+      document.getElementById('admin-dashboard').style.display = 'none';
+      document.getElementById('login-screen').style.display = 'block';
+      document.getElementById('admin-pass').value = '';
+    }
+
+    function approveWithdraw(btn) {
+      if (confirm("Confirm approving this payment?")) {
+        const row = btn.closest('tr');
+        row.style.opacity = '0.4';
+        btn.parentElement.innerHTML = '<span style="color:#10b981;">Approved</span>';
+      }
+    }
+
+    function rejectWithdraw(btn) {
+      if (confirm("Are you sure you want to reject and refund?")) {
+        const row = btn.closest('tr');
+        row.style.opacity = '0.4';
+        btn.parentElement.innerHTML = '<span style="color:#ef4444;">Rejected</span>';
+      }
+    }
+
+    function addNewTask() {
+      const title = document.getElementById('task-title').value;
+      const link = document.getElementById('task-link').value;
+      const coins = document.getElementById('task-coins').value;
+
+      if (!title || !link || !coins) {
+        alert("Please fill all task fields!");
+        return;
+      }
+
+      alert(`Task "${title}" created successfully with +${coins} coins!`);
+      document.getElementById('task-title').value = '';
+      document.getElementById('task-link').value = '';
+      document.getElementById('task-coins').value = '';
+    }
+
+    function modifyUserCoins() {
+      const uid = document.getElementById('mod-userid').value;
+      const amount = document.getElementById('mod-amount').value;
+      const action = document.getElementById('mod-action').value;
+
+      if (!uid || !amount) {
+        alert("Please enter User ID & Coins Amount!");
+        return;
+      }
+
+      alert(`Successfully ${action === 'add' ? 'added' : 'deducted'} ${amount} coins for User ID:${uid}`);
+      document.getElementById('mod-userid').value = '';
+      document.getElementById('mod-amount').value = '';
+    }
+  </script>
+</body>
+</html>
