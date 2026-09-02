@@ -1,20 +1,21 @@
 import os
 import logging
-from http.server import HTTPServer, BaseHTTPRequestHandler
+from http.server import HTTPServer, SimpleHTTPRequestHandler
 import threading
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-# Render Port Keep-Alive Server
-class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
+# Render-এ HTML ফাইল সার্ভ করার জন্য রিকোয়েস্ট হ্যান্ডলার
+class CustomHTMLHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
-        self.send_response(200)
-        self.end_headers()
-        self.wfile.write(b"Bot is running alive!")
+        # রুট URL (/) বা অন্য যেকোনো রিকোয়েস্টে index.html দেখাবে
+        if self.path == '/' or not os.path.exists(self.path[1:]):
+            self.path = '/index.html'
+        return super().do_GET()
 
 def run_http_server():
     port = int(os.environ.get("PORT", 10000))
-    server = HTTPServer(('0.0.0.0', port), SimpleHTTPRequestHandler)
+    server = HTTPServer(('0.0.0.0', port), CustomHTMLHandler)
     server.serve_forever()
 
 # HTTP সার্ভার থ্রেডে চালু করা
