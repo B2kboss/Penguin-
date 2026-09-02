@@ -704,16 +704,37 @@
       alert("Referral link copied to clipboard!");
     }
 
-    // Live Simulated Withdrawal Feed Engine
-    const dummyUsers = ["Alexander K.", "Rahim Uddin", "Michael S.", "Elena V.", "David Miller", "Carlos R.", "Hassan Ali", "Sarah Jenkins", "Tariq Mahmood", "Anna P."];
+    // Extended User Names List (30+ Unique Names)
+    const allUsersList = [
+      "Alexander K.", "Rahim Uddin", "Michael S.", "Elena V.", "David Miller", 
+      "Carlos R.", "Hassan Ali", "Sarah Jenkins", "Tariq Mahmood", "Anna P.",
+      "Viktor B.", "Arif Hossain", "Jessica M.", "Sanjay Patel", "Dmitry V.",
+      "Lucas Silva", "Tanvir Ahmed", "Omar Farooq", "Emily Watson", "Nikos G.",
+      "Kowshik R.", "Sofia Rossi", "Gabriel N.", "Zubair Khan", "Igor S.",
+      "Fatima Al-Sayed", "Liam O'Connor", "Mehedi Hasan", "Chloe Bennett", "Ivan P."
+    ];
+
+    let availableUsers = [...allUsersList]; // Copy list to track unused names
     const networks = ["TON", "TRC20", "BEP20"];
-    const amounts = ["1.00", "2.50", "5.00", "10.00", "1.50", "3.00"];
+    const amounts = ["1.00", "2.50", "5.00", "10.00", "1.50", "3.00", "7.50", "4.00"];
+
+    function getUniqueUser() {
+      // If all names used, reset array
+      if (availableUsers.length === 0) {
+        availableUsers = [...allUsersList];
+      }
+      // Pick random index, remove from list and return
+      const randomIndex = Math.floor(Math.random() * availableUsers.length);
+      const selectedUser = availableUsers[randomIndex];
+      availableUsers.splice(randomIndex, 1);
+      return selectedUser;
+    }
 
     function addLiveWithdrawalItem() {
       const feed = document.getElementById('live-withdraw-feed');
       if (!feed) return;
 
-      const randomUser = dummyUsers[Math.floor(Math.random() * dummyUsers.length)];
+      const randomUser = getUniqueUser();
       const randomNet = networks[Math.floor(Math.random() * networks.length)];
       const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
 
@@ -735,7 +756,7 @@
 
       feed.insertBefore(newItem, feed.firstChild);
 
-      // Keep maximum 4 items
+      // Keep maximum 4 items on screen
       if (feed.children.length > 4) {
         feed.removeChild(feed.lastChild);
       }
@@ -746,8 +767,8 @@
       for (let i = 0; i < 3; i++) {
         addLiveWithdrawalItem();
       }
-      // Auto add new item every 6 seconds dynamically
-      setInterval(addLiveWithdrawalItem, 6000);
+      // Auto add new item every 7 seconds
+      setInterval(addLiveWithdrawalItem, 7000);
     }
   </script>
 </body>
