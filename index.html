@@ -218,7 +218,6 @@
       text-transform: uppercase;
     }
 
-    /* Referral Box Inside Profile */
     .referral-box {
       background: #1e293b;
       padding: 15px;
@@ -263,6 +262,90 @@
       border-radius: 8px;
       font-size: 12px;
       font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* Wallet Custom UI (Blogspot Style) */
+    .wallet-card {
+      background: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 15px;
+    }
+
+    .wallet-card-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 15px;
+    }
+
+    .rate-badge {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.1);
+      color: #10b981;
+      border: 1px solid #10b981;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-bottom: 15px;
+    }
+
+    .balance-display {
+      text-align: center;
+      margin: 10px 0 20px;
+    }
+
+    .balance-display h2 {
+      font-size: 32px;
+      color: #38bdf8;
+      margin-bottom: 4px;
+    }
+
+    .balance-display p {
+      font-size: 14px;
+      color: #10b981;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .balance-display small {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    .withdraw-form label {
+      display: block;
+      font-size: 12px;
+      color: #94a3b8;
+      margin-bottom: 8px;
+    }
+
+    .withdraw-form input {
+      width: 100%;
+      background: #0b0e14;
+      border: 1px solid #1f2937;
+      padding: 12px;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 13px;
+      margin-bottom: 15px;
+      outline: none;
+    }
+
+    .btn-withdraw {
+      width: 100%;
+      background: #10b981;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 14px;
       cursor: pointer;
     }
 
@@ -341,20 +424,17 @@
     </div>
   </div>
 
-  <!-- PROFILE TAB (Home-এর ঠিক পাশে) -->
+  <!-- PROFILE TAB -->
   <div id="profile-tab" class="tab-content">
     <div class="profile-card">
-      <!-- User Photo / Avatar -->
       <div class="profile-avatar-large" id="profile-avatar">🐧</div>
       
-      <!-- User Details -->
       <div class="profile-info">
         <h3 id="profile-name">User Name</h3>
         <p>Telegram ID: <span id="profile-id">0000000000</span></p>
         <div class="rank-badge">✨ PREMIUM MEMBER</div>
       </div>
 
-      <!-- Stats Grid -->
       <div class="stats-grid">
         <div class="stat-item">
           <h4 id="profile-coins">0</h4>
@@ -370,7 +450,6 @@
         </div>
       </div>
 
-      <!-- Referral System Box -->
       <div class="referral-box">
         <h5>🤝 Invite Friends & Earn</h5>
         <p>Share your link to get +500 Coins per invite!</p>
@@ -382,10 +461,39 @@
     </div>
   </div>
 
-  <!-- WALLET TAB -->
+  <!-- WALLET TAB (Blogspot Style UI) -->
   <div id="wallet-tab" class="tab-content">
-    <div class="section-title">💼 Your Wallet</div>
-    <p style="color:#94a3b8; font-size:13px;">Withdrawal system will open soon!</p>
+    
+    <!-- Balance Card -->
+    <div class="wallet-card">
+      <div class="wallet-card-header">
+        <i class="fas fa-wallet" style="color: #38bdf8;"></i>
+        <span>Your Balance</span>
+      </div>
+
+      <div style="text-align: center;">
+        <div class="rate-badge">
+          📊 Rate: 100 Coins = $0.001 USDT
+        </div>
+      </div>
+
+      <div class="balance-display">
+        <h2>0.00</h2>
+        <p>≈ $0.000 USDT</p>
+        <small>Minimum Withdraw: 100,000 Coins ($1.00 USDT)</small>
+      </div>
+    </div>
+
+    <!-- Withdrawal Form Card -->
+    <div class="wallet-card">
+      <div class="withdraw-form">
+        <h5 style="margin-bottom: 12px; font-size: 14px;">Request Withdrawal</h5>
+        <label>USDT Address (TRC20 / TON)</label>
+        <input type="text" placeholder="Paste your USDT wallet address">
+        <button class="btn-withdraw" onclick="alert('Withdrawal request submitted!')">Submit Withdraw Request</button>
+      </div>
+    </div>
+
   </div>
 
   <!-- WAITLIST TAB -->
@@ -394,7 +502,7 @@
     <p style="color:#94a3b8; font-size:13px;">Top earners will be shown here.</p>
   </div>
 
-  <!-- Bottom Navigation Bar (Home -> Profile -> Wallet -> Waitlist) -->
+  <!-- Bottom Navigation Bar -->
   <div class="bottom-nav">
     <button class="nav-btn active" onclick="switchTab('home-tab', this)">
       <i class="fas fa-home"></i>
