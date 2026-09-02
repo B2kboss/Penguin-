@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PenguinEarn - Admin Dashboard</title>
+  <title>PenguinEarn - Blogger Admin Panel</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
@@ -72,7 +72,7 @@
     /* Dashboard Layout */
     #admin-dashboard {
       display: none;
-      max-width: 700px;
+      max-width: 800px;
       margin: 0 auto;
     }
 
@@ -90,6 +90,9 @@
     .header-bar h3 {
       font-size: 18px;
       color: #38bdf8;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .btn-logout {
@@ -102,147 +105,116 @@
       cursor: pointer;
     }
 
-    /* Stats Grid */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .stat-card {
-      background: #111827;
-      border: 1px solid #1f2937;
-      padding: 15px 10px;
-      border-radius: 12px;
-      text-align: center;
-    }
-
-    .stat-card i {
-      font-size: 20px;
-      color: #38bdf8;
-      margin-bottom: 6px;
-    }
-
-    .stat-card h4 {
-      font-size: 18px;
-      color: #fff;
-    }
-
-    .stat-card p {
-      font-size: 10px;
-      color: #9ca3af;
-      text-transform: uppercase;
-      margin-top: 2px;
-    }
-
-    /* Section Box */
-    .admin-card {
+    /* Blogger Style Publisher Form */
+    .blogger-card {
       background: #111827;
       border: 1px solid #1f2937;
       border-radius: 14px;
-      padding: 18px;
-      margin-bottom: 20px;
+      padding: 20px;
+      margin-bottom: 25px;
     }
 
-    .card-title {
-      font-size: 15px;
+    .blogger-header {
+      font-size: 16px;
       font-weight: 600;
       color: #f3f4f6;
       margin-bottom: 15px;
       display: flex;
       align-items: center;
       gap: 8px;
+      border-bottom: 1px solid #1f2937;
+      padding-bottom: 10px;
     }
 
-    /* Form Fields */
     .form-group {
-      margin-bottom: 12px;
+      margin-bottom: 15px;
     }
 
     .form-group label {
       display: block;
-      font-size: 11px;
+      font-size: 12px;
       color: #9ca3af;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
+      font-weight: 600;
     }
 
-    .form-group input, .form-group select {
+    .form-group input, .form-group textarea, .form-group select {
       width: 100%;
       background: #0b0e14;
       border: 1px solid #374151;
-      padding: 10px;
+      padding: 12px;
       border-radius: 8px;
       color: #fff;
       font-size: 13px;
       outline: none;
     }
 
-    .btn-submit {
-      width: 100%;
+    .form-group textarea {
+      height: 90px;
+      resize: vertical;
+    }
+
+    .btn-publish {
       background: #10b981;
       color: #fff;
       border: none;
-      padding: 10px;
+      padding: 12px 20px;
       border-radius: 8px;
       font-weight: bold;
-      font-size: 13px;
+      font-size: 14px;
       cursor: pointer;
-      margin-top: 5px;
-    }
-
-    /* Tables */
-    .table-responsive {
-      overflow-x: auto;
-    }
-
-    table {
+      display: flex;
+      align-items: center;
+      gap: 8px;
       width: 100%;
-      border-collapse: collapse;
-      font-size: 12px;
-      text-align: left;
+      justify-content: center;
     }
 
-    th {
-      background: #1f2937;
-      color: #9ca3af;
-      padding: 10px;
-      font-weight: 600;
+    /* Published Posts List */
+    .posts-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
-    td {
-      padding: 10px;
-      border-bottom: 1px solid #1f2937;
-      color: #e5e7eb;
-    }
-
-    .badge-pending {
-      background: rgba(245, 158, 11, 0.2);
-      color: #f59e0b;
-      padding: 3px 8px;
+    .post-item {
+      background: #0b0e14;
+      border: 1px solid #1f2937;
+      padding: 15px;
       border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .post-info h5 {
+      font-size: 14px;
+      color: #38bdf8;
+      margin-bottom: 4px;
+    }
+
+    .post-info p {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 6px;
+    }
+
+    .post-info span {
       font-size: 10px;
+      background: rgba(16, 185, 129, 0.2);
+      color: #10b981;
+      padding: 2px 8px;
+      border-radius: 10px;
     }
 
-    .btn-approve {
-      background: #10b981;
-      color: #fff;
-      border: none;
-      padding: 4px 8px;
-      border-radius: 4px;
-      cursor: pointer;
+    .btn-delete {
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+      border: 1px solid #ef4444;
+      padding: 6px 12px;
+      border-radius: 6px;
       font-size: 11px;
-    }
-
-    .btn-reject {
-      background: #ef4444;
-      color: #fff;
-      border: none;
-      padding: 4px 8px;
-      border-radius: 4px;
       cursor: pointer;
-      font-size: 11px;
-      margin-left: 4px;
     }
   </style>
 </head>
@@ -250,200 +222,138 @@
 
   <!-- Login Screen -->
   <div id="login-screen">
-    <h2><i class="fas fa-user-shield"></i> Admin Access</h2>
+    <h2><i class="fas fa-blog"></i> Blogger Admin</h2>
     <p>Enter secret password to manage PenguinEarn</p>
     <input type="password" id="admin-pass" class="input-box" placeholder="Enter Password">
-    <button class="btn-login" onclick="checkLogin()">Unlock Admin Panel</button>
+    <button class="btn-login" onclick="checkLogin()">Login Panel</button>
   </div>
 
-  <!-- Main Admin Dashboard -->
+  <!-- Dashboard -->
   <div id="admin-dashboard">
     
-    <!-- Top Bar -->
     <div class="header-bar">
-      <h3><i class="fas fa-sliders-h"></i> Admin Control</h3>
+      <h3><i class="fab fa-blogger"></i> Blogger Dashboard</h3>
       <button class="btn-logout" onclick="logout()">Logout</button>
     </div>
 
-    <!-- Quick Stats -->
-    <div class="stats-grid">
-      <div class="stat-card">
-        <i class="fas fa-users"></i>
-        <h4 id="stat-users">1,240</h4>
-        <p>Total Users</p>
+    <!-- Create Post / Task (Blogger Style) -->
+    <div class="blogger-card">
+      <div class="blogger-header">
+        <i class="fas fa-pen-square" style="color:#38bdf8;"></i>
+        <span>Create New Task / Post</span>
       </div>
-      <div class="stat-card">
-        <i class="fas fa-clock"></i>
-        <h4 id="stat-pending">8</h4>
-        <p>Pending Withdraw</p>
+
+      <div class="form-group">
+        <label>Task Title / Title (শিরোনাম)</label>
+        <input type="text" id="post-title" placeholder="e.g. Join Telegram Channel">
       </div>
-      <div class="stat-card">
-        <i class="fas fa-check-circle" style="color:#10b981;"></i>
-        <h4 id="stat-paid">$450.0</h4>
-        <p>Total Paid</p>
+
+      <div class="form-group">
+        <label>Target URL / Link (যে লিঙ্কে ইউজার যাবে)</label>
+        <input type="text" id="post-link" placeholder="https://t.me/yourchannel">
       </div>
+
+      <div class="form-group">
+        <label>Reward Coins (কয়েন পয়েন্ট)</label>
+        <input type="number" id="post-coins" placeholder="100">
+      </div>
+
+      <div class="form-group">
+        <label>Description / Instructions (সংক্ষিপ্ত বিবরণ)</label>
+        <textarea id="post-desc" placeholder="Write instructions for users..."></textarea>
+      </div>
+
+      <button class="btn-publish" onclick="publishPost()">
+        <i class="fas fa-paper-plane"></i> Publish Post
+      </button>
     </div>
 
-    <!-- Pending Withdrawals Management -->
-    <div class="admin-card">
-      <div class="card-title">
-        <i class="fas fa-hand-holding-usd" style="color:#f59e0b;"></i>
-        <span>Pending Withdrawal Requests</span>
+    <!-- Published List -->
+    <div class="blogger-card">
+      <div class="blogger-header">
+        <i class="fas fa-list-alt" style="color:#f59e0b;"></i>
+        <span>Published Tasks / Posts</span>
       </div>
 
-      <div class="table-responsive">
-        <table>
-          <thead>
-            <tr>
-              <th>User ID</th>
-              <th>Amount</th>
-              <th>Address</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="withdraw-table-body">
-            <tr>
-              <td>7301714914</td>
-              <td>$1.00 USDT</td>
-              <td><code>TQ9a...7xK2</code></td>
-              <td>
-                <button class="btn-approve" onclick="approveWithdraw(this)">Approve</button>
-                <button class="btn-reject" onclick="rejectWithdraw(this)">Reject</button>
-              </td>
-            </tr>
-            <tr>
-              <td>5891204122</td>
-              <td>$2.50 USDT</td>
-              <td><code>EQC...mK9P</code></td>
-              <td>
-                <button class="btn-approve" onclick="approveWithdraw(this)">Approve</button>
-                <button class="btn-reject" onclick="rejectWithdraw(this)">Reject</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="posts-list" id="posts-container">
+        <!-- Dynamic Posts List -->
       </div>
-    </div>
-
-    <!-- Create New Task Card -->
-    <div class="admin-card">
-      <div class="card-title">
-        <i class="fas fa-plus-circle" style="color:#38bdf8;"></i>
-        <span>Add New Task for Users</span>
-      </div>
-
-      <div class="form-group">
-        <label>Task Title</label>
-        <input type="text" id="task-title" placeholder="e.g. Subscribe Youtube Channel">
-      </div>
-
-      <div class="form-group">
-        <label>Task Link (URL)</label>
-        <input type="text" id="task-link" placeholder="https://t.me/yourchannel">
-      </div>
-
-      <div class="form-group">
-        <label>Reward Coins</label>
-        <input type="number" id="task-coins" placeholder="100">
-      </div>
-
-      <button class="btn-submit" onclick="addNewTask()">Publish Task</button>
-    </div>
-
-    <!-- Manage User Balance Card -->
-    <div class="admin-card">
-      <div class="card-title">
-        <i class="fas fa-coins" style="color:#c084fc;"></i>
-        <span>Manual User Coins Modifier</span>
-      </div>
-
-      <div class="form-group">
-        <label>Telegram User ID</label>
-        <input type="text" id="mod-userid" placeholder="Enter Telegram User ID">
-      </div>
-
-      <div class="form-group">
-        <label>Action</label>
-        <select id="mod-action">
-          <option value="add">Add Coins</option>
-          <option value="subtract">Deduct Coins</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Amount of Coins</label>
-        <input type="number" id="mod-amount" placeholder="e.g. 5000">
-      </div>
-
-      <button class="btn-submit" style="background:#0284c7;" onclick="modifyUserCoins()">Update Coins</button>
     </div>
 
   </div>
 
   <script>
-    const ADMIN_PASSWORD = "admin123"; // 🔑 Change Password Here!
+    const ADMIN_PASSWORD = "admin123";
 
     function checkLogin() {
       const inputPass = document.getElementById('admin-pass').value;
       if (inputPass === ADMIN_PASSWORD) {
         document.getElementById('login-screen').style.display = 'none';
         document.getElementById('admin-dashboard').style.display = 'block';
+        renderPosts();
       } else {
-        alert("Wrong Admin Password!");
+        alert("Wrong Password!");
       }
     }
 
     function logout() {
       document.getElementById('admin-dashboard').style.display = 'none';
       document.getElementById('login-screen').style.display = 'block';
-      document.getElementById('admin-pass').value = '';
     }
 
-    function approveWithdraw(btn) {
-      if (confirm("Confirm approving this payment?")) {
-        const row = btn.closest('tr');
-        row.style.opacity = '0.4';
-        btn.parentElement.innerHTML = '<span style="color:#10b981;">Approved</span>';
-      }
+    // Default posts array
+    let posts = [
+      { id: 1, title: "Join Official Telegram Channel", link: "https://t.me/example", coins: 100, desc: "Join and stay active." },
+      { id: 2, title: "Visit Website (15s)", link: "https://example.com", coins: 50, desc: "Stay 15 seconds on website." }
+    ];
+
+    function renderPosts() {
+      const container = document.getElementById('posts-container');
+      container.innerHTML = '';
+
+      posts.forEach((post, index) => {
+        const item = document.createElement('div');
+        item.className = 'post-item';
+        item.innerHTML = `
+          <div class="post-info">
+            <h5>${post.title}</h5>
+            <p>${post.desc}</p>
+            <span>+${post.coins} COINS</span>
+          </div>
+          <button class="btn-delete" onclick="deletePost(${index})"><i class="fas fa-trash"></i> Delete</button>
+        `;
+        container.appendChild(item);
+      });
     }
 
-    function rejectWithdraw(btn) {
-      if (confirm("Are you sure you want to reject and refund?")) {
-        const row = btn.closest('tr');
-        row.style.opacity = '0.4';
-        btn.parentElement.innerHTML = '<span style="color:#ef4444;">Rejected</span>';
-      }
-    }
-
-    function addNewTask() {
-      const title = document.getElementById('task-title').value;
-      const link = document.getElementById('task-link').value;
-      const coins = document.getElementById('task-coins').value;
+    function publishPost() {
+      const title = document.getElementById('post-title').value;
+      const link = document.getElementById('post-link').value;
+      const coins = document.getElementById('post-coins').value;
+      const desc = document.getElementById('post-desc').value;
 
       if (!title || !link || !coins) {
-        alert("Please fill all task fields!");
+        alert("Please fill Title, Link, and Coins!");
         return;
       }
 
-      alert(`Task "${title}" created successfully with +${coins} coins!`);
-      document.getElementById('task-title').value = '';
-      document.getElementById('task-link').value = '';
-      document.getElementById('task-coins').value = '';
+      posts.unshift({ id: Date.now(), title, link, coins, desc: desc || 'Complete task to earn reward.' });
+      renderPosts();
+
+      // Clear input fields
+      document.getElementById('post-title').value = '';
+      document.getElementById('post-link').value = '';
+      document.getElementById('post-coins').value = '';
+      document.getElementById('post-desc').value = '';
+
+      alert("Post published successfully!");
     }
 
-    function modifyUserCoins() {
-      const uid = document.getElementById('mod-userid').value;
-      const amount = document.getElementById('mod-amount').value;
-      const action = document.getElementById('mod-action').value;
-
-      if (!uid || !amount) {
-        alert("Please enter User ID & Coins Amount!");
-        return;
+    function deletePost(index) {
+      if (confirm("Delete this post?")) {
+        posts.splice(index, 1);
+        renderPosts();
       }
-
-      alert(`Successfully ${action === 'add' ? 'added' : 'deducted'} ${amount} coins for User ID:${uid}`);
-      document.getElementById('mod-userid').value = '';
-      document.getElementById('mod-amount').value = '';
     }
   </script>
 </body>
