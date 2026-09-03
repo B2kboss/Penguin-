@@ -1,23 +1,18 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html>
-<html xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<html lang="bn">
 <head>
-    <meta charset='UTF-8'/>
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' name='viewport'/>
-    <title>PenguinBot Pro Mini App</title>
-    
-    <b:skin><![CDATA[
-        body { background-color: #0d0f17; color: #ffffff; margin:0; padding:0; }
-    ]]></b:skin>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <title>PenguinEarn</title>
 
     <!-- Telegram WebApp SDK -->
-    <script src='https://telegram.org/js/telegram-web-app.js'/>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <!-- Firebase SDKs -->
-    <script src='https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js'/>
-    <script src='https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js'/>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <!-- FontAwesome & Google Font -->
-    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' rel='stylesheet'/>
-    <link href='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap' rel='stylesheet'/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
 
     <style>
         :root {
@@ -77,208 +72,197 @@
             display: flex; flex-direction: column; gap: 10px;
             border: 1px solid var(--card-border); 
             backdrop-filter: blur(8px);
-            transition: all 0.2s ease;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
         .task-card-main { display: flex; align-items: center; justify-content: space-between; width: 100%; }
 
-        .task-icon { 
-            width: 44px; height: 44px; border-radius: 13px; 
-            display: flex; align-items: center; justify-content: center; 
-            font-size: 20px; flex-shrink: 0;
-        }
-        .icon-telegram { background: rgba(0, 136, 204, 0.15); color: #0088cc; border: 1px solid rgba(0, 136, 204, 0.3); }
-        .icon-youtube { background: rgba(255, 0, 0, 0.15); color: #ff0000; border: 1px solid rgba(255, 0, 0, 0.3); }
-        .icon-facebook { background: rgba(24, 119, 242, 0.15); color: #1877f2; border: 1px solid rgba(24, 119, 242, 0.3); }
-        .icon-website { background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); }
-        .icon-ads { background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); }
-
         .task-info { flex: 1; margin: 0 12px; overflow: hidden; }
         .task-info h4 { font-size: 13.5px; font-weight: 600; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .task-info p { font-size: 12px; color: var(--success); font-weight: 700; display: flex; align-items: center; gap: 4px; }
-        
-        .proof-input-box { display: flex; gap: 8px; margin-top: 5px; width: 100%; }
-        .proof-input-box input {
-            flex: 1; background: rgba(0,0,0,0.4); border: 1px solid var(--card-border);
-            padding: 8px 12px; border-radius: 8px; color: #fff; font-size: 12px; outline: none;
-        }
-        .proof-input-box input:focus { border-color: var(--primary); }
 
         .btn-action { 
             background: linear-gradient(135deg, #0088cc, #005588); color: white; border: none; 
             padding: 9px 15px; border-radius: 10px; font-weight: 600; font-size: 12px; 
-            cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 12px var(--primary-glow);
-            white-space: nowrap;
+            cursor: pointer; white-space: nowrap;
         }
-        .btn-action:disabled { background: rgba(255, 255, 255, 0.05) !important; color: #6b7280 !important; box-shadow: none !important; cursor: not-allowed; border: 1px solid var(--card-border); }
-        .btn-claim { background: linear-gradient(135deg, #10b981, #059669) !important; color: white !important; box-shadow: 0 4px 12px var(--success-glow) !important; }
+        .btn-action:disabled { background: rgba(255, 255, 255, 0.05) !important; color: #6b7280 !important; cursor: not-allowed; border: 1px solid var(--card-border); }
+        .btn-claim { background: linear-gradient(135deg, #10b981, #059669) !important; color: white !important; }
 
         .admin-box { 
             background: var(--card-bg); padding: 18px; border-radius: 16px; 
             border: 1px solid var(--card-border); margin-bottom: 16px; 
-            backdrop-filter: blur(8px);
         }
         .input-group { margin-bottom: 12px; }
-        .input-group label { display: block; font-size: 11px; color: var(--text-sub); margin-bottom: 6px; font-weight: 500; }
+        .input-group label { display: block; font-size: 11px; color: var(--text-sub); margin-bottom: 6px; }
         .input-group input, .input-group select { 
             width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.4); 
             border: 1px solid var(--card-border); border-radius: 10px; 
-            color: white; font-size: 13px; outline: none; transition: border-color 0.2s ease;
+            color: white; font-size: 13px; outline: none;
         }
-        .input-group input:focus, .input-group select:focus { border-color: var(--primary); }
         
         .btn-submit { 
             width: 100%; background: linear-gradient(135deg, #10b981, #059669); 
             color: white; border: none; padding: 12px; border-radius: 10px; 
             font-weight: 600; font-size: 13px; cursor: pointer; 
-            box-shadow: 0 4px 12px var(--success-glow);
         }
 
         .rate-badge { 
             background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); 
             color: var(--success); padding: 5px 12px; border-radius: 20px; 
-            font-size: 11px; font-weight: 500; display: inline-block; margin-bottom: 12px; 
+            font-size: 11px; display: inline-block; margin-bottom: 12px; 
         }
 
-        .live-pulse { width: 8px; height: 8px; background-color: var(--success); border-radius: 50%; display: inline-block; box-shadow: 0 0 10px var(--success); animation: pulse 1.8s infinite; }
-        @keyframes pulse { 0% { transform: scale(0.9); opacity: 0.8; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(0.9); opacity: 0.8; } }
-        
-        .progress-bar-bg { width: 100%; height: 8px; background: rgba(0, 0, 0, 0.4); border-radius: 10px; overflow: hidden; margin: 10px 0; border: 1px solid var(--card-border); }
-        .progress-bar-fill { height: 100%; width: 65%; background: linear-gradient(90deg, var(--primary), var(--success)); border-radius: 10px; transition: width 0.6s ease; }
+        .live-pulse { width: 8px; height: 8px; background-color: var(--success); border-radius: 50%; display: inline-block; box-shadow: 0 0 10px var(--success); }
+        .progress-bar-bg { width: 100%; height: 8px; background: rgba(0, 0, 0, 0.4); border-radius: 10px; overflow: hidden; margin: 10px 0; }
+        .progress-bar-fill { height: 100%; width: 65%; background: linear-gradient(90deg, var(--primary), var(--success)); }
 
         .withdraw-feed { display: flex; flex-direction: column; gap: 8px; }
         .feed-item { 
             background: rgba(0, 0, 0, 0.2); border: 1px solid var(--card-border); 
             border-radius: 12px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; 
-            animation: fadeIn 0.4s ease;
         }
-        .feed-item .addr { font-size: 12px; font-weight: 500; font-family: monospace; }
-        .feed-item .time { font-size: 10px; color: var(--text-sub); }
-        .feed-item .amt { font-size: 13px; font-weight: 600; color: var(--success); text-align: right; }
-        .status-paid { background: rgba(16, 185, 129, 0.15); color: var(--success); font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+        .feed-item .addr { font-size: 12px; font-family: monospace; }
+        .feed-item .amt { font-size: 13px; font-weight: 600; color: var(--success); }
 
         .bottom-nav { 
             position: fixed; bottom: 0; left: 0; right: 0; 
-            background: rgba(15, 20, 31, 0.92); backdrop-filter: blur(16px);
+            background: rgba(15, 20, 31, 0.95);
             border-top: 1px solid var(--card-border); 
-            display: flex; justify-around; padding: 10px 0; z-index: 1000; 
+            display: flex; justify-around: space-around; padding: 10px 0; z-index: 1000; 
         }
-        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-sub); text-decoration: none; font-size: 10px; font-weight: 500; cursor: pointer; gap: 4px; flex: 1; transition: color 0.2s ease; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-sub); text-decoration: none; font-size: 10px; cursor: pointer; gap: 4px; flex: 1; }
         .nav-item i { font-size: 18px; }
         .nav-item.active { color: var(--primary); }
     </style>
 </head>
 <body>
-    <b:section id='main' showelement='yes'/>
 
-    <div class='header'>
-        <div class='user-info'>
-            <div class='avatar' id='uAvatar'>U</div>
-            <div class='user-details'>
-                <h3 id='uName'>Loading...</h3>
-                <p id='uId'>ID: -------</p>
+    <div class="header">
+        <div class="user-info">
+            <div class="avatar" id="uAvatar">U</div>
+            <div class="user-details">
+                <h3 id="uName">User</h3>
+                <p id="uId">ID: -------</p>
             </div>
         </div>
-        <div class='balance-card'>
-            <div class='amount' id='uBalance'>0.00</div>
-            <div class='label'>Coins</div>
+        <div class="balance-card">
+            <div class="amount" id="uBalance">0</div>
+            <div class="label">Coins</div>
         </div>
     </div>
 
     <!-- Home Tab -->
-    <div class='tab-content active' id='tab-home'>
-        <div class='section-title'><i class='fa-solid fa-bolt' style='color:#f59e0b;'/> Active Tasks</div>
-        <div class='task-list' id='taskList'>
-            <p style='text-align: center; color: var(--text-sub); padding: 30px; font-size: 13px;'>Fetching tasks...</p>
+    <div class="tab-content active" id="tab-home">
+        <div class="section-title"><i class="fa-solid fa-bolt" style="color:#f59e0b;"></i> Active Tasks</div>
+        <div class="task-list" id="taskList">
+            <p style="text-align: center; color: var(--text-sub); padding: 30px; font-size: 13px;">Loading tasks...</p>
         </div>
     </div>
 
     <!-- Wallet Tab -->
-    <div class='tab-content' id='tab-wallet'>
-        <div class='section-title'><i class='fa-solid fa-wallet' style='color:var(--primary);'/> Your Wallet</div>
-        <div class='admin-box' style='text-align: center;'>
-            <div class='rate-badge'><i class='fa-solid fa-bolt'/> 100 Coins = $0.001 USDT</div>
-            <h1 id='wBalance' style='font-size: 34px; color: var(--primary); margin-bottom: 2px;'>0.00</h1>
-            <p id='wUsdt' style='font-size: 13px; color: var(--success); font-weight: 600; margin-bottom: 10px;'>&#8776; $0.000 USDT</p>
-            <p style='font-size: 11px; color: var(--text-sub);'>Min. Withdraw: 100,000 Coins ($1.00 USDT)</p>
+    <div class="tab-content" id="tab-wallet">
+        <div class="section-title"><i class="fa-solid fa-wallet" style="color:var(--primary);"></i> Your Wallet</div>
+        <div class="admin-box" style="text-align: center;">
+            <div class="rate-badge"><i class="fa-solid fa-bolt"></i> 100 Coins = $0.001 USDT</div>
+            <h1 id="wBalance" style="font-size: 34px; color: var(--primary); margin-bottom: 2px;">0</h1>
+            <p id="wUsdt" style="font-size: 13px; color: var(--success); font-weight: 600; margin-bottom: 10px;">&#8776; $0.000 USDT</p>
+            <p style="font-size: 11px; color: var(--text-sub);">Min. Withdraw: 100,000 Coins ($1.00 USDT)</p>
         </div>
 
-        <div class='admin-box'>
-            <h4 style='margin-bottom: 12px; font-size: 13px;'>Request Withdrawal</h4>
-            <div class='input-group'>
+        <div class="admin-box">
+            <h4 style="margin-bottom: 12px; font-size: 13px;">Request Withdrawal</h4>
+            <div class="input-group">
                 <label>USDT Address (TON / TRC20)</label>
-                <input id='walletAddress' placeholder='Paste wallet address here' type='text'/>
+                <input id="walletAddress" placeholder="Paste wallet address here" type="text"/>
             </div>
-            <button class='btn-submit' onclick='requestWithdrawal()' type='button'>Submit Request</button>
+            <button class="btn-submit" onclick="requestWithdrawal()" type="button">Submit Request</button>
         </div>
 
-        <div class='section-title' style='justify-content: space-between;'>
-            <span><i class='fa-solid fa-clock-rotate-left' style='color: #f1c40f;'/> Live Recent Payouts</span>
-            <span style='font-size: 10px; color: var(--success); display: flex; align-items: center; gap: 4px;'>
-                <span class='live-pulse'/> Auto-Updating
+        <div class="section-title" style="justify-content: space-between;">
+            <span><i class="fa-solid fa-clock-rotate-left" style="color: #f1c40f;"></i> Live Recent Payouts</span>
+            <span style="font-size: 10px; color: var(--success); display: flex; align-items: center; gap: 4px;">
+                <span class="live-pulse"></span> Auto-Updating
             </span>
         </div>
-        <div class='withdraw-feed' id='liveWithdrawFeed'/>
+        <div class="withdraw-feed" id="liveWithdrawFeed"></div>
     </div>
 
     <!-- Waitlist Tab -->
-    <div class='tab-content' id='tab-waitlist'>
-        <div class='section-title'><i class='fa-solid fa-trophy' style='color: #f1c40f;'/> Project Waitlist</div>
-        
-        <div class='admin-box' style='text-align: center; padding: 22px 15px;'>
-            <i class='fa-solid fa-rocket' style='font-size: 38px; color: var(--primary); margin-bottom: 12px;'/>
-            <h3 style='font-size: 16px; font-weight: 600; margin-bottom: 6px;'>Airdrop &amp; Mainnet Rank</h3>
-            <p style='font-size: 11px; color: var(--text-sub); margin-bottom: 16px;'>
-                Complete daily tasks to gain higher priority tier for token distribution.
-            </p>
-
-            <div style='background: rgba(0,0,0,0.25); border: 1px solid var(--card-border); border-radius: 12px; padding: 14px; margin-bottom: 14px; display: flex; justify-around; align-items: center;'>
+    <div class="tab-content" id="tab-waitlist">
+        <div class="section-title"><i class="fa-solid fa-trophy" style="color: #f1c40f;"></i> Project Waitlist</div>
+        <div class="admin-box" style="text-align: center; padding: 22px 15px;">
+            <i class="fa-solid fa-rocket" style="font-size: 38px; color: var(--primary); margin-bottom: 12px;"></i>
+            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 6px;">Airdrop Rank</h3>
+            <p style="font-size: 11px; color: var(--text-sub); margin-bottom: 16px;">Complete daily tasks to gain priority tier.</p>
+            <div style="background: rgba(0,0,0,0.25); border: 1px solid var(--card-border); border-radius: 12px; padding: 14px; margin-bottom: 14px; display: flex; justify-content: space-around;">
                 <div>
-                    <span style='font-size: 10px; color: var(--text-sub); display: block;'>Total Members</span>
-                    <strong id='liveUserCount' style='font-size: 17px;'>48,290</strong>
-                    <span style='font-size: 9px; color: var(--success); display: flex; align-items: center; justify-content: center; gap: 4px; margin-top: 2px;'>
-                        <span class='live-pulse'/> Live
-                    </span>
+                    <span style="font-size: 10px; color: var(--text-sub);">Total Members</span>
+                    <strong id="liveUserCount" style="font-size: 17px; display:block;">48,290</strong>
                 </div>
-                <div style='width: 1px; height: 35px; background: var(--card-border);'/>
                 <div>
-                    <span style='font-size: 10px; color: var(--text-sub); display: block;'>Your Rank</span>
-                    <strong id='liveUserRank' style='font-size: 17px; color: var(--primary);'>#1,420</strong>
-                    <span style='font-size: 9px; color: var(--text-sub); display: block; margin-top: 2px;'>Tier 1 Priority</span>
+                    <span style="font-size: 10px; color: var(--text-sub);">Your Rank</span>
+                    <strong id="liveUserRank" style="font-size: 17px; color: var(--primary); display:block;">#1,420</strong>
                 </div>
             </div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressBarFill"></div></div>
+        </div>
+    </div>
 
-            <div style='text-align: left; margin-bottom: 12px;'>
-                <div style='display: flex; justify-between; font-size: 11px;'>
-                    <span style='color: var(--text-sub);'>Allocation Progress</span>
-                    <span id='progressPercent' style='color: var(--success); font-weight: 600;'>72%</span>
-                </div>
-                <div class='progress-bar-bg'>
-                    <div class='progress-bar-fill' id='progressBarFill'/>
-                </div>
+    <!-- Admin Tab -->
+    <div class="tab-content" id="tab-admin">
+        <div class="section-title"><i class="fa-solid fa-user-shield" style="color:var(--primary);"></i> Admin Control Panel</div>
+        <div class="admin-box">
+            <h4 style="margin-bottom: 12px; font-size: 13px;">Add New Task</h4>
+            <div class="input-group">
+                <label>Task Title</label>
+                <input id="taskTitle" placeholder="e.g., Join Telegram Channel" type="text"/>
             </div>
+            <div class="input-group">
+                <label>Task URL</label>
+                <input id="taskUrl" placeholder="https://..." type="text"/>
+            </div>
+            <div class="input-group">
+                <label>Reward Coins</label>
+                <input id="taskReward" placeholder="100" type="number"/>
+            </div>
+            <div class="input-group">
+                <label>Task Type</label>
+                <select id="taskType">
+                    <option value="telegram">Telegram Channel</option>
+                    <option value="youtube_sub">YouTube Subscribe</option>
+                    <option value="website">Website Visit</option>
+                </select>
+            </div>
+            <button class="btn-submit" onclick="addNewTask()" type="button">Publish Task</button>
+        </div>
+
+        <div class="admin-box">
+            <h4 style="margin-bottom: 12px; font-size: 13px;">Manage Tasks</h4>
+            <div id="adminTaskList"></div>
         </div>
     </div>
 
     <!-- Bottom Navigation -->
-    <div class='bottom-nav'>
-        <div class='nav-item active' onclick='switchTab(&apos;home&apos;, this)'>
-            <i class='fa-solid fa-house'/>
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('home', this)">
+            <i class="fa-solid fa-house"></i>
             <span>Home</span>
         </div>
-        <div class='nav-item' onclick='switchTab(&apos;wallet&apos;, this)'>
-            <i class='fa-solid fa-wallet'/>
+        <div class="nav-item" onclick="switchTab('wallet', this)">
+            <i class="fa-solid fa-wallet"></i>
             <span>Wallet</span>
         </div>
-        <div class='nav-item' onclick='switchTab(&apos;waitlist&apos;, this)'>
-            <i class='fa-solid fa-trophy'/>
+        <div class="nav-item" onclick="switchTab('waitlist', this)">
+            <i class="fa-solid fa-trophy"></i>
             <span>Waitlist</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('admin', this)">
+            <i class="fa-solid fa-user-shield"></i>
+            <span>Admin</span>
         </div>
     </div>
 
-    <script>//<![CDATA[
-        const BOT_TOKEN = "7891234567:AAExxxxxxxxxxxxxxxxxx";
-
+    <script>
         const tg = window.Telegram ? window.Telegram.WebApp : null;
         if (tg) tg.expand();
 
@@ -294,12 +278,11 @@
         }
 
         let userCurrentBalance = 0;
-        let baseUserCount = 48290;
 
         document.addEventListener("DOMContentLoaded", function() {
             setupUser();
             loadTasks();
-            startLiveWaitlistAnimations();
+            loadAdminTasks();
             startLiveWithdrawFeed();
         });
 
@@ -313,8 +296,7 @@
 
             db.ref('users/' + userId).update({
                 name: userName,
-                userId: userId,
-                lastActive: firebase.database.ServerValue.TIMESTAMP
+                userId: userId
             });
 
             db.ref('users/' + userId).on('value', function(snapshot) {
@@ -325,52 +307,7 @@
                 document.getElementById('uBalance').innerText = userCurrentBalance.toLocaleString();
                 document.getElementById('wBalance').innerText = userCurrentBalance.toLocaleString();
                 document.getElementById('wUsdt').innerText = "≈ $" + usdtValue.toFixed(3) + " USDT";
-
-                updateDynamicRank(userCurrentBalance);
             });
-        }
-
-        function startLiveWithdrawFeed() {
-            const feedContainer = document.getElementById('liveWithdrawFeed');
-            const sampleWallets = ['T9zP...xK2m', 'UQAg...7p9x', '0x8b...A12f', 'TYx1...mP0q', 'UQD3...xW88', 'TBd2...kJ9x'];
-            
-            function createWithdrawItem() {
-                const randomWallet = sampleWallets[Math.floor(Math.random() * sampleWallets.length)];
-                const randomUsdt = (Math.random() * (4.5 - 1.0) + 1.0).toFixed(2);
-                
-                const div = document.createElement('div');
-                div.className = 'feed-item';
-                div.innerHTML = '<div>' +
-                    '<div class="addr"><i class="fa-solid fa-arrow-up-right-from-square" style="color:var(--primary); font-size:10px;"></i> ' + randomWallet + '</div>' +
-                    '<div class="time">Just now • USDT</div>' +
-                    '</div>' +
-                    '<div>' +
-                    '<div class="amt">+$' + randomUsdt + '</div>' +
-                    '<span class="status-paid"><i class="fa-solid fa-check"></i> Paid</span>' +
-                    '</div>';
-
-                feedContainer.insertBefore(div, feedContainer.firstChild);
-                if (feedContainer.children.length > 3) feedContainer.removeChild(feedContainer.lastChild);
-            }
-
-            for (let i = 0; i < 3; i++) createWithdrawItem();
-            setInterval(createWithdrawItem, 7000);
-        }
-
-        function startLiveWaitlistAnimations() {
-            setInterval(function() {
-                baseUserCount += Math.floor(Math.random() * 3) + 1;
-                document.getElementById('liveUserCount').innerText = baseUserCount.toLocaleString();
-            }, 3000);
-        }
-
-        function updateDynamicRank(balance) {
-            let calculatedRank = Math.max(12, Math.floor(15000 - (balance * 5.2)));
-            document.getElementById('liveUserRank').innerText = "#" + calculatedRank.toLocaleString();
-
-            let progress = Math.min(98, Math.max(35, Math.floor((balance / 1000) * 100) + 40));
-            document.getElementById('progressPercent').innerText = progress + "%";
-            document.getElementById('progressBarFill').style.width = progress + "%";
         }
 
         function switchTab(tabName, element) {
@@ -380,65 +317,15 @@
             element.classList.add('active');
         }
 
-        function requestWithdrawal() {
-            const address = document.getElementById('walletAddress').value.trim();
-            const minCoins = 100000;
-
-            if (userCurrentBalance < minCoins) {
-                alert("Minimum withdrawal is 100,000 Coins ($1.00 USDT).\nYou need " + (minCoins - userCurrentBalance).toLocaleString() + " more coins.");
-                return;
-            }
-
-            if (!address) {
-                alert("Please enter a valid USDT wallet address.");
-                return;
-            }
-
-            const userId = currentUser.id.toString();
-            const usdtAmount = (userCurrentBalance / 100) * 0.001;
-
-            db.ref('withdrawals').push({
-                userId: userId,
-                userName: currentUser.first_name || "User",
-                address: address,
-                coins: userCurrentBalance,
-                usdt: usdtAmount,
-                timestamp: firebase.database.ServerValue.TIMESTAMP
-            }).then(function() {
-                db.ref('users/' + userId + '/balance').set(0);
-                alert("Withdrawal request submitted successfully!");
-                document.getElementById('walletAddress').value = '';
-            });
-        }
-
-        function getTaskConfig(task) {
-            const taskType = task.type || (task.channel ? 'telegram' : 'website');
-            switch(taskType) {
-                case 'telegram':
-                    return { icon: 'fa-brands fa-telegram', cssClass: 'icon-telegram', label: 'Join Channel', requiresProof: true, placeholder: 'Enter Telegram Username' };
-                case 'youtube_sub':
-                    return { icon: 'fa-brands fa-youtube', cssClass: 'icon-youtube', label: 'Subscribe', requiresProof: true, placeholder: 'Enter YouTube Handle / Name' };
-                case 'youtube_watch':
-                    return { icon: 'fa-solid fa-play', cssClass: 'icon-youtube', label: 'Watch Video', requiresProof: false, timer: 15 };
-                case 'facebook':
-                    return { icon: 'fa-brands fa-facebook', cssClass: 'icon-facebook', label: 'Follow Page', requiresProof: false };
-                case 'ads':
-                    return { icon: 'fa-solid fa-rectangle-ad', cssClass: 'icon-ads', label: 'Watch Ad', requiresProof: false, timer: 15 };
-                case 'website':
-                default:
-                    return { icon: 'fa-solid fa-globe', cssClass: 'icon-website', label: 'Visit & Earn', requiresProof: false, timer: 10 };
-            }
-        }
-
         function loadTasks() {
             const userId = currentUser.id.toString();
             db.ref('tasks').on('value', function(snapshot) {
                 const tasks = snapshot.val();
-                const taskListContainer = document.getElementById('taskList');
-                taskListContainer.innerHTML = '';
+                const container = document.getElementById('taskList');
+                container.innerHTML = '';
 
                 if (!tasks) {
-                    taskListContainer.innerHTML = '<p style="text-align: center; color: var(--text-sub); padding: 30px; font-size:13px;">No tasks available right now.</p>';
+                    container.innerHTML = '<p style="text-align: center; color: var(--text-sub); padding: 30px; font-size:13px;">No tasks available.</p>';
                     return;
                 }
 
@@ -447,106 +334,70 @@
                     Object.keys(tasks).forEach(function(taskId) {
                         const task = tasks[taskId];
                         const isDone = completedTasks[taskId];
-                        const config = getTaskConfig(task);
 
-                        const taskCard = document.createElement('div');
-                        taskCard.className = 'task-card';
-
-                        let proofInputHTML = '';
-                        if (config.requiresProof && !isDone) {
-                            proofInputHTML = '<div class="proof-input-box" id="proof-box-' + taskId + '" style="display:none;">' +
-                                '<input type="text" id="input-proof-' + taskId + '" placeholder="' + config.placeholder + '"/>' +
-                                '</div>';
-                        }
-
-                        taskCard.innerHTML = '<div class="task-card-main">' +
-                            '<div class="task-icon ' + config.cssClass + '"><i class="' + config.icon + '"></i></div>' +
+                        const div = document.createElement('div');
+                        div.className = 'task-card';
+                        div.innerHTML = '<div class="task-card-main">' +
                             '<div class="task-info"><h4>' + task.title + '</h4><p>+' + task.reward + ' Coins</p></div>' +
-                            '<button class="btn-action" id="btn-' + taskId + '" ' + (isDone ? 'disabled' : '') + ' onclick="handleTaskAction(\'' + taskId + '\')">' +
-                            (isDone ? 'Completed' : config.label) + '</button>' +
-                            '</div>' + proofInputHTML;
-
-                        taskListContainer.appendChild(taskCard);
+                            '<button class="btn-action ' + (isDone ? '' : 'btn-claim') + '" ' + (isDone ? 'disabled' : '') + ' onclick="claimTask(\'' + taskId + '\', ' + task.reward + ', \'' + task.url + '\')">' +
+                            (isDone ? 'Completed' : 'Start Task') + '</button>' +
+                            '</div>';
+                        container.appendChild(div);
                     });
                 });
             });
         }
 
-        function openExternalUrl(targetUrl) {
-            if (!targetUrl) return;
-            if (tg && typeof tg.openLink === 'function') {
-                try {
-                    tg.openLink(targetUrl, { try_instant_view: false });
-                    return;
-                } catch (e) {}
-            }
-            window.open(targetUrl, '_blank');
+        function claimTask(taskId, reward, url) {
+            if (url) window.open(url, '_blank');
+            const userId = currentUser.id.toString();
+            db.ref('users/' + userId + '/balance').transaction(function(curr) { return (curr || 0) + reward; });
+            db.ref('user_tasks/' + userId + '/' + taskId).set(true);
+            alert("Reward claimed!");
         }
 
-        function handleTaskAction(taskId) {
-            db.ref('tasks/' + taskId).once('value', function(snapshot) {
-                const task = snapshot.val();
-                if(!task) return;
+        function addNewTask() {
+            const title = document.getElementById('taskTitle').value;
+            const url = document.getElementById('taskUrl').value;
+            const reward = parseInt(document.getElementById('taskReward').value);
 
-                const btn = document.getElementById('btn-' + taskId);
-                const config = getTaskConfig(task);
-                const userId = currentUser.id.toString();
+            if(!title || !url || isNaN(reward)) return alert("Fill all fields!");
 
-                if (btn.classList.contains("btn-claim")) {
-                    if (config.requiresProof) {
-                        const proofVal = document.getElementById('input-proof-' + taskId).value.trim();
-                        if (!proofVal) {
-                            alert("❌ Please enter your " + (task.type === 'youtube_sub' ? 'YouTube Handle/Name' : 'Telegram Username') + " proof!");
-                            return;
-                        }
-                        
-                        db.ref('proofs/' + taskId + '/' + userId).set({
-                            proof: proofVal,
-                            timestamp: firebase.database.ServerValue.TIMESTAMP
-                        });
-                    }
-
-                    btn.disabled = true;
-                    btn.innerText = "Processing...";
-
-                    db.ref('users/' + userId + '/balance').transaction(function(currentBalance) { 
-                        return (currentBalance || 0) + task.reward; 
-                    });
-                    db.ref('user_tasks/' + userId + '/' + taskId).set(true);
-
-                    alert("🎉 Reward Claimed successfully! +" + task.reward + " Coins");
-                    btn.innerText = "Completed";
-                    btn.classList.remove("btn-claim");
-                    btn.disabled = true;
-
-                    const proofBox = document.getElementById('proof-box-' + taskId);
-                    if(proofBox) proofBox.style.display = 'none';
-
-                    return;
-                }
-
-                openExternalUrl(task.url);
-
-                let waitTime = config.timer || 10;
-                btn.disabled = true;
-                btn.innerText = "Wait " + waitTime + "s";
-
-                const timer = setInterval(function() {
-                    waitTime--;
-                    if (waitTime > 0) {
-                        btn.innerText = "Wait " + waitTime + "s";
-                    } else {
-                        clearInterval(timer);
-                        btn.disabled = false;
-                        btn.innerText = "Claim Reward";
-                        btn.classList.add("btn-claim");
-
-                        const proofBox = document.getElementById('proof-box-' + taskId);
-                        if(proofBox) proofBox.style.display = 'flex';
-                    }
-                }, 1000);
+            db.ref('tasks').push({ title: title, url: url, reward: reward }).then(function() {
+                alert("Task Added!");
+                document.getElementById('taskTitle').value = '';
+                document.getElementById('taskUrl').value = '';
+                document.getElementById('taskReward').value = '';
             });
         }
-    //]]></script>
+
+        function loadAdminTasks() {
+            db.ref('tasks').on('value', function(snapshot) {
+                const tasks = snapshot.val();
+                const container = document.getElementById('adminTaskList');
+                if(!container) return;
+                container.innerHTML = '';
+                if(!tasks) return;
+
+                Object.keys(tasks).forEach(function(taskId) {
+                    const t = tasks[taskId];
+                    const div = document.createElement('div');
+                    div.style.cssText = "display:flex; justify-content:space-between; padding:8px; margin-top:5px; background:rgba(0,0,0,0.2);";
+                    div.innerHTML = '<span>' + t.title + '</span><button onclick="db.ref(\'tasks/' + taskId + '\').remove()">Delete</button>';
+                    container.appendChild(div);
+                });
+            });
+        }
+
+        function startLiveWithdrawFeed() {
+            const feedContainer = document.getElementById('liveWithdrawFeed');
+            if(!feedContainer) return;
+            feedContainer.innerHTML = '<div class="feed-item"><div><div class="addr">T9zP...xK2m</div></div><div><div class="amt">+$2.50</div></div></div>';
+        }
+
+        function requestWithdrawal() {
+            alert("Withdrawal requested!");
+        }
+    </script>
 </body>
 </html>
