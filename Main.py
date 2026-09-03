@@ -2,23 +2,22 @@ import os
 import logging
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 import threading
-from telegram import Update
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-# Render-এ HTML ফাইল সার্ভ করার জন্য রিকোয়েস্ট হ্যান্ডলার
+# A simple HTML server to keep the app alive if needed
 class CustomHTMLHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
-        # রুট URL (/) বা অন্য যেকোনো রিকোয়েস্টে index.html দেখাবে
         if self.path == '/' or not os.path.exists(self.path[1:]):
             self.path = '/index.html'
         return super().do_GET()
 
 def run_http_server():
     port = int(os.environ.get("PORT", 10000))
-    server = HTTPServer(('0.0.0.0', port), CustomHTMLHandler)
+    server = HTTPServer(("0.0.0.0", port), CustomHTMLHandler)
     server.serve_forever()
 
-# HTTP সার্ভার থ্রেডে চালু করা
+# Start HTTP Server in background
 threading.Thread(target=run_http_server, daemon=True).start()
 
 # Bot Setup
@@ -30,14 +29,39 @@ logging.basicConfig(
 )
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    welcome_text = """🐧 Welcome to PenguinEarn Official Bot!
+    # আপনার ছবির Direct URL (.jpg বা .png লিংক) এখানে বসাবেন
+    photo_url = "https://i.ibb.co/sample-image.jpg" 
 
-🔥 Earn free coins daily
-🚀 Boost your rank on the waitlist
-💸 Instant USDT Payouts
+    welcome_text = (
+        "🚀 <b>Welcome to Penguin Official!</b> 🐧\n\n"
+        "Start earning free crypto and instant rewards by completing simple daily tasks! 💰\n\n"
+        "✨ <b>Why Join Us?</b>\n"
+        "🎁 <b>Signup Bonus:</b> 200 Coins\n"
+        "👥 <b>Referral Reward:</b> 1,000 Coins per friend\n"
+        "⚡ <b>Easy Tasks:</b> Fast & simple daily tasks\n"
+        "💸 <b>Withdrawal:</b> Fast payments via USDT\n\n"
+        "👇 <b>Start Earning Now:</b>"
+    )
 
-👇 Click below to enter the App!"""
-    await update.message.reply_text(welcome_text)
+    keyboard = [
+        [InlineKeyboardButton("🚀 Play App", web_app={"url": "https://penguinearnbot.blogspot.com/?m=1"})]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    try:
+        await update.message.reply_photo(
+            photo=photo_url,
+            caption=welcome_text,
+            parse_mode="HTML",
+            reply_markup=reply_markup
+        )
+    except Exception:
+        # ছবি লোড হতে সমস্যা হলে কেবল টেক্সট পাঠাবে
+        await update.message.reply_text(
+            text=welcome_text,
+            parse_mode="HTML",
+            reply_markup=reply_markup
+        )
 
 if __name__ == '__main__':
     app = ApplicationBuilder().token(BOT_TOKEN).build()
