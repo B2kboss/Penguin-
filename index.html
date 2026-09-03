@@ -1,369 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PenguinEarn Mini App</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PenguinEarn - Coin Ranking</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
     body {
-      background-color: #0b0e14;
-      color: #ffffff;
-      padding-bottom: 80px;
-    }
-
-    /* Top User Header */
-    .top-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 20px;
-      background: #111827;
-      border-bottom: 1px solid #1f2937;
-    }
-
-    .user-profile-mini {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .avatar-circle {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #3b82f6, #9333ea);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 18px;
-      overflow: hidden;
-      border: 2px solid #38bdf8;
-    }
-
-    .avatar-circle img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .user-details h4 {
-      font-size: 15px;
-      margin-bottom: 2px;
-    }
-
-    .user-details p {
-      font-size: 11px;
-      color: #9ca3af;
-    }
-
-    .coin-badge {
-      background: #1e293b;
-      padding: 6px 14px;
-      border-radius: 20px;
-      border: 1px solid #38bdf8;
-      text-align: right;
-    }
-
-    .coin-badge span {
-      font-size: 14px;
-      font-weight: bold;
-      color: #38bdf8;
-    }
-
-    .coin-badge small {
-      display: block;
-      font-size: 9px;
-      color: #94a3b8;
-    }
-
-    /* Sections Container */
-    .tab-content {
+      background-color: #0b0f19 !important;
+      color: #ffffff !important;
       padding: 15px;
-      display: none;
+      padding-bottom: 90px;
     }
 
-    .tab-content.active {
-      display: block;
-    }
-
-    .section-title {
-      font-size: 16px;
-      margin-bottom: 15px;
-      color: #f3f4f6;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    /* Task List UI */
-    .task-card {
-      background: #111827;
-      border: 1px solid #1f2937;
-      border-radius: 12px;
-      padding: 14px 15px;
-      margin-bottom: 10px;
+    /* User Profile Header */
+    .user-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 20px;
     }
 
-    .task-info h5 {
-      font-size: 14px;
-      margin-bottom: 4px;
-    }
+    .user-info { display: flex; align-items: center; gap: 12px; }
 
-    .task-info p {
-      font-size: 12px;
-      color: #10b981;
-      font-weight: 600;
-    }
-
-    .btn-action {
+    .user-avatar {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
       background: #0284c7;
-      color: #fff;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    /* Profile UI */
-    .profile-card {
-      background: linear-gradient(145deg, #0f172a 0%, #1e1b4b 100%);
-      border: 2px solid #38bdf8;
-      border-radius: 20px;
-      padding: 24px 20px;
-      box-shadow: 0 10px 30px rgba(56, 189, 248, 0.2);
-      text-align: center;
-    }
-
-    .profile-avatar-large {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      margin: 0 auto 12px;
-      border: 3px solid #c084fc;
-      background: #1e293b;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 36px;
+      font-size: 20px;
       font-weight: bold;
       overflow: hidden;
-      box-shadow: 0 0 15px rgba(192, 132, 252, 0.4);
+      border: 2px solid #38bdf8;
     }
 
-    .profile-avatar-large img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .user-details h4 { font-size: 15px; color: #fff; font-weight: 700; }
+    .user-details p { font-size: 11px; color: #9ca3af; }
 
-    .profile-info h3 {
-      font-size: 20px;
-      color: #ffffff;
-      margin-bottom: 4px;
-    }
-
-    .profile-info p {
-      font-size: 13px;
-      color: #94a3b8;
-      margin-bottom: 8px;
-    }
-
-    .rank-badge {
-      display: inline-block;
-      background: rgba(56, 189, 248, 0.15);
-      color: #38bdf8;
-      padding: 5px 14px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: bold;
-      border: 1px solid #38bdf8;
-      margin-bottom: 18px;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      background: rgba(15, 23, 42, 0.7);
-      padding: 15px;
-      border-radius: 14px;
-      border: 1px solid #334155;
-      margin-bottom: 18px;
-    }
-
-    .stat-item h4 {
-      font-size: 16px;
-      color: #38bdf8;
-    }
-
-    .stat-item span {
-      font-size: 10px;
-      color: #94a3b8;
-      text-transform: uppercase;
-    }
-
-    .referral-box {
-      background: #1e293b;
-      padding: 15px;
-      border-radius: 14px;
-      text-align: left;
-      border: 1px solid #334155;
-    }
-
-    .referral-box h5 {
-      font-size: 13px;
-      color: #f3f4f6;
-      margin-bottom: 4px;
-    }
-
-    .referral-box p {
-      font-size: 11px;
-      color: #94a3b8;
-      margin-bottom: 10px;
-    }
-
-    .ref-input-wrapper {
-      display: flex;
-      gap: 8px;
-    }
-
-    .ref-input-wrapper input {
-      flex: 1;
-      background: #0f172a;
-      border: 1px solid #334155;
-      color: #38bdf8;
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 11px;
-      outline: none;
-    }
-
-    .ref-input-wrapper button {
-      background: linear-gradient(135deg, #c084fc, #9333ea);
-      border: none;
-      color: #fff;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    /* Wallet UI */
-    .wallet-card {
+    .coin-box {
       background: #111827;
       border: 1px solid #1f2937;
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 15px;
-    }
-
-    .wallet-card-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 16px;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 15px;
-    }
-
-    .rate-badge {
-      display: inline-block;
-      background: rgba(16, 185, 129, 0.1);
-      color: #10b981;
-      border: 1px solid #10b981;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      margin-bottom: 15px;
-    }
-
-    .balance-display {
+      padding: 6px 14px;
+      border-radius: 12px;
       text-align: center;
-      margin: 10px 0 20px;
     }
 
-    .balance-display h2 {
-      font-size: 32px;
-      color: #38bdf8;
-      margin-bottom: 4px;
-    }
+    .coin-box h3 { font-size: 16px; color: #38bdf8; font-weight: bold; }
+    .coin-box span { font-size: 9px; color: #9ca3af; text-transform: uppercase; }
 
-    .balance-display p {
-      font-size: 14px;
-      color: #10b981;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
 
-    .balance-display small {
-      font-size: 11px;
-      color: #94a3b8;
-    }
-
-    .withdraw-form label {
-      display: block;
-      font-size: 12px;
-      color: #94a3b8;
-      margin-bottom: 8px;
-    }
-
-    .withdraw-form input {
-      width: 100%;
-      background: #0b0e14;
-      border: 1px solid #1f2937;
-      padding: 12px;
-      border-radius: 8px;
-      color: #fff;
-      font-size: 13px;
-      margin-bottom: 15px;
-      outline: none;
-    }
-
-    .btn-withdraw {
-      width: 100%;
-      background: #10b981;
-      color: #fff;
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    /* Animated Live Withdrawals UI */
-    .withdraw-history-header {
+    /* Live Badge Header */
+    .live-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 12px;
     }
 
-    .withdraw-history-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: #f3f4f6;
-      display: flex;
+    .live-badge {
+      display: inline-flex;
       align-items: center;
       gap: 6px;
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid #10b981;
     }
 
     .live-dot {
@@ -371,109 +90,74 @@
       height: 8px;
       background-color: #10b981;
       border-radius: 50%;
-      display: inline-block;
-      box-shadow: 0 0 8px #10b981;
-      animation: pulse 1.5s infinite;
+      animation: pulse 1.2s infinite;
     }
 
     @keyframes pulse {
-      0% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(1.2); }
-      100% { opacity: 1; transform: scale(1); }
+      0% { transform: scale(0.95); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.4; }
+      100% { transform: scale(0.95); opacity: 1; }
     }
 
-    .withdraw-feed-container {
-      max-height: 220px;
-      overflow-y: hidden;
-      position: relative;
-    }
-
-    .withdraw-item {
+    /* Leaderboard Items */
+    .leaderboard-list {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px;
-      background: #0b0e14;
-      border: 1px solid #1f2937;
-      border-radius: 10px;
-      margin-bottom: 8px;
-      animation: fadeInDown 0.5s ease-out;
-    }
-
-    @keyframes fadeInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-15px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .withdraw-user-info {
-      display: flex;
-      align-items: center;
+      flex-direction: column;
       gap: 10px;
     }
 
-    .withdraw-user-icon {
-      width: 32px;
-      height: 32px;
+    .leaderboard-item {
+      background: #111827;
+      border: 1px solid #1f2937;
+      padding: 12px 15px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.5s ease;
+    }
+
+    .leaderboard-item.highlight-me {
+      border: 1px solid #38bdf8;
+      background: rgba(56, 189, 248, 0.08);
+    }
+
+    .rank-badge {
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
-      background: rgba(56, 189, 248, 0.1);
-      color: #38bdf8;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-weight: bold;
       font-size: 13px;
     }
 
-    .withdraw-user-details h6 {
-      font-size: 12px;
-      color: #fff;
-    }
+    .rank-1 { background: #eab308; color: #000; box-shadow: 0 0 10px rgba(234, 179, 8, 0.4); }
+    .rank-2 { background: #94a3b8; color: #000; }
+    .rank-3 { background: #b45309; color: #fff; }
+    .rank-other { background: #1f2937; color: #9ca3af; }
 
-    .withdraw-user-details p {
-      font-size: 10px;
-      color: #94a3b8;
-    }
+    .lb-user { display: flex; align-items: center; gap: 12px; }
+    .lb-user-name { font-size: 13px; font-weight: 600; color: #fff; }
+    .lb-user-coins { font-size: 14px; font-weight: 700; color: #38bdf8; }
 
-    .withdraw-amount-status {
-      text-align: right;
-    }
-
-    .withdraw-amount-status span {
-      font-size: 12px;
-      font-weight: bold;
-      color: #10b981;
-      display: block;
-    }
-
-    .withdraw-amount-status small {
-      font-size: 9px;
-      color: #38bdf8;
-      background: rgba(56, 189, 248, 0.1);
-      padding: 2px 6px;
-      border-radius: 10px;
-    }
-
-    /* Bottom Navigation Bar */
+    /* Bottom Navigation */
     .bottom-nav {
       position: fixed;
       bottom: 0;
       left: 0;
       width: 100%;
       height: 65px;
-      background: #0f172a;
+      background: #0b0f19;
       display: flex;
       justify-content: space-around;
       align-items: center;
-      border-top: 1px solid #1e293b;
+      border-top: 1px solid #1f2937;
       z-index: 1000;
     }
 
-    .nav-btn {
+    .nav-item {
       background: none;
       border: none;
       color: #64748b;
@@ -486,290 +170,158 @@
       width: 25%;
     }
 
-    .nav-btn i {
-      font-size: 18px;
-    }
-
-    .nav-btn.active {
-      color: #38bdf8;
-    }
+    .nav-item i { font-size: 18px; }
+    .nav-item.active { color: #38bdf8; }
   </style>
 </head>
 <body>
 
   <!-- Top Header -->
-  <div class="top-header">
-    <div class="user-profile-mini">
-      <div class="avatar-circle" id="header-avatar">P</div>
+  <div class="user-header">
+    <div class="user-info">
+      <div class="user-avatar" id="u-avatar">D</div>
       <div class="user-details">
-        <h4 id="header-name">User Name</h4>
-        <p>ID: <span id="header-id">0000000000</span></p>
+        <h4 id="u-name">Diego || KOL's manager</h4>
+        <p>ID: <span id="u-id">7301714914</span></p>
       </div>
     </div>
-    <div class="coin-badge">
-      <span id="header-coins">0</span>
-      <small>COINS</small>
+    <div class="coin-box">
+      <h3 id="u-coins">0</h3>
+      <span>COINS</span>
     </div>
   </div>
 
   <!-- HOME TAB -->
-  <div id="home-tab" class="tab-content active">
-    <div class="section-title">⚡ Active Tasks</div>
-
-    <div class="task-card">
-      <div class="task-info">
-        <h5>Join Official Telegram Channel</h5>
-        <p>+100 Coins</p>
-      </div>
-      <button class="btn-action">Join & Earn</button>
-    </div>
-
-    <div class="task-card">
-      <div class="task-info">
-        <h5>Visit Website (15s)</h5>
-        <p>+50 Coins</p>
-      </div>
-      <button class="btn-action">Visit</button>
-    </div>
+  <div id="home-tab" class="tab-content">
+    <div style="margin-bottom:12px; font-size:15px; font-weight:600;">⚡ Task List</div>
+    <p style="font-size:12px; color:#9ca3af;">Earn coins to move up in ranks!</p>
   </div>
 
-  <!-- PROFILE TAB -->
-  <div id="profile-tab" class="tab-content">
-    <div class="profile-card">
-      <div class="profile-avatar-large" id="profile-avatar">🐧</div>
-      
-      <div class="profile-info">
-        <h3 id="profile-name">User Name</h3>
-        <p>Telegram ID: <span id="profile-id">0000000000</span></p>
-        <div class="rank-badge">✨ PREMIUM MEMBER</div>
+  <!-- WAITLIST / COIN RANKING TAB -->
+  <div id="waitlist-tab" class="tab-content active">
+    <div class="live-header">
+      <div style="font-size:16px; font-weight:bold;">
+        <i class="fas fa-trophy" style="color:#eab308;"></i> Coin Leaderboard
       </div>
-
-      <div class="stats-grid">
-        <div class="stat-item">
-          <h4 id="profile-coins">0</h4>
-          <span>Coins</span>
-        </div>
-        <div class="stat-item">
-          <h4 id="profile-refs">0</h4>
-          <span>Referrals</span>
-        </div>
-        <div class="stat-item">
-          <h4 id="profile-tasks">0</h4>
-          <span>Tasks</span>
-        </div>
-      </div>
-
-      <div class="referral-box">
-        <h5>🤝 Invite Friends & Earn</h5>
-        <p>Share your link to get +500 Coins per invite!</p>
-        <div class="ref-input-wrapper">
-          <input type="text" id="ref-link" value="https://t.me/PenguinEarnBot?start=0000000000" readonly>
-          <button onclick="copyReferralLink()">Copy</button>
-        </div>
+      <div class="live-badge">
+        <div class="live-dot"></div> LIVE RANKS
       </div>
     </div>
+
+    <!-- Live Leaderboard List -->
+    <div class="leaderboard-list" id="leaderboard-container"></div>
   </div>
 
-  <!-- WALLET TAB -->
-  <div id="wallet-tab" class="tab-content">
-    
-    <!-- Balance Card -->
-    <div class="wallet-card">
-      <div class="wallet-card-header">
-        <i class="fas fa-wallet" style="color: #38bdf8;"></i>
-        <span>Your Balance</span>
-      </div>
-
-      <div style="text-align: center;">
-        <div class="rate-badge">
-          📊 Rate: 100 Coins = $0.001 USDT
-        </div>
-      </div>
-
-      <div class="balance-display">
-        <h2>0.00</h2>
-        <p>≈ $0.000 USDT</p>
-        <small>Minimum Withdraw: 100,000 Coins ($1.00 USDT)</small>
-      </div>
-    </div>
-
-    <!-- Withdrawal Form Card -->
-    <div class="wallet-card">
-      <div class="withdraw-form">
-        <h5 style="margin-bottom: 12px; font-size: 14px;">Request Withdrawal</h5>
-        <label>USDT Address (TRC20 / TON)</label>
-        <input type="text" placeholder="Paste your USDT wallet address">
-        <button class="btn-withdraw" onclick="alert('Withdrawal request submitted!')">Submit Withdraw Request</button>
-      </div>
-    </div>
-
-    <!-- Live Animated Withdrawals Feed -->
-    <div class="wallet-card">
-      <div class="withdraw-history-header">
-        <div class="withdraw-history-title">
-          <i class="fas fa-bolt" style="color: #f59e0b;"></i>
-          <span>Live Payouts</span>
-        </div>
-        <div style="font-size: 10px; color: #10b981; display:flex; align-items:center; gap:5px;">
-          <span class="live-dot"></span> LIVE FEED
-        </div>
-      </div>
-
-      <div class="withdraw-feed-container" id="live-withdraw-feed">
-        <!-- Live Items appended dynamically via Javascript -->
-      </div>
-    </div>
-
-  </div>
-
-  <!-- WAITLIST TAB -->
-  <div id="waitlist-tab" class="tab-content">
-    <div class="section-title">🏆 Global Leaderboard</div>
-    <p style="color:#94a3b8; font-size:13px;">Top earners will be shown here.</p>
-  </div>
-
-  <!-- Bottom Navigation Bar -->
+  <!-- Bottom Nav -->
   <div class="bottom-nav">
-    <button class="nav-btn active" onclick="switchTab('home-tab', this)">
+    <button class="nav-item" onclick="switchTab('home-tab', this)">
       <i class="fas fa-home"></i>
       <span>Home</span>
     </button>
-    <button class="nav-btn" onclick="switchTab('profile-tab', this)">
-      <i class="fas fa-user-circle"></i>
-      <span>Profile</span>
-    </button>
-    <button class="nav-btn" onclick="switchTab('wallet-tab', this)">
-      <i class="fas fa-wallet"></i>
-      <span>Wallet</span>
-    </button>
-    <button class="nav-btn" onclick="switchTab('waitlist-tab', this)">
+    <button class="nav-item active" onclick="switchTab('waitlist-tab', this)">
       <i class="fas fa-trophy"></i>
       <span>Waitlist</span>
     </button>
   </div>
 
   <script>
-    const tg = window.Telegram?.WebApp;
-    if (tg) {
-      tg.expand();
-    }
+    //<![CDATA[
+    const tg = window.Telegram ? window.Telegram.WebApp : null;
+    if (tg) tg.expand();
 
-    // Telegram User Data Auto-Loader
-    window.addEventListener('DOMContentLoaded', () => {
-      const user = tg?.initDataUnsafe?.user;
-      if (user) {
-        const userId = user.id;
-        const userName = user.first_name + (user.last_name ? ' ' + user.last_name : '');
-        const photoUrl = user.photo_url;
+    // Current Real User Data
+    let currentUser = {
+      id: "7301714914",
+      name: "Diego || KOL's manager",
+      coins: 0
+    };
 
-        // Set Name & ID
-        document.getElementById('header-name').innerText = userName;
-        document.getElementById('header-id').innerText = userId;
-        document.getElementById('profile-name').innerText = userName;
-        document.getElementById('profile-id').innerText = userId;
-
-        // Set Photo or Initial Avatar
-        if (photoUrl) {
-          document.getElementById('header-avatar').innerHTML = `<img src="${photoUrl}" alt="Avatar">`;
-          document.getElementById('profile-avatar').innerHTML = `<img src="${photoUrl}" alt="Avatar">`;
-        } else {
-          const firstChar = userName.charAt(0).toUpperCase();
-          document.getElementById('header-avatar').innerText = firstChar;
-          document.getElementById('profile-avatar').innerText = firstChar;
-        }
-
-        // Set Referral Link
-        document.getElementById('ref-link').value = `https://t.me/PenguinEarnBot?start=${userId}`;
-      }
-      
-      // Start Live Withdrawal Generator
-      initLiveWithdrawals();
-    });
-
-    // Switch Navigation Tabs Function
-    function switchTab(tabId, btnElement) {
-      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-
-      document.getElementById(tabId).classList.add('active');
-      btnElement.classList.add('active');
-    }
-
-    // Copy Referral Link Function
-    function copyReferralLink() {
-      const copyText = document.getElementById('ref-link');
-      copyText.select();
-      copyText.setSelectionRange(0, 99999);
-      navigator.clipboard.writeText(copyText.value);
-      alert("Referral link copied to clipboard!");
-    }
-
-    // Extended User Names List (30+ Unique Names)
-    const allUsersList = [
-      "Alexander K.", "Rahim Uddin", "Michael S.", "Elena V.", "David Miller", 
-      "Carlos R.", "Hassan Ali", "Sarah Jenkins", "Tariq Mahmood", "Anna P.",
-      "Viktor B.", "Arif Hossain", "Jessica M.", "Sanjay Patel", "Dmitry V.",
-      "Lucas Silva", "Tanvir Ahmed", "Omar Farooq", "Emily Watson", "Nikos G.",
-      "Kowshik R.", "Sofia Rossi", "Gabriel N.", "Zubair Khan", "Igor S.",
-      "Fatima Al-Sayed", "Liam O'Connor", "Mehedi Hasan", "Chloe Bennett", "Ivan P."
+    // User List with Coins
+    let usersList = [
+      { id: "u_1", name: "Crypto King 👑", coins: 152000 },
+      { id: "u_2", name: "Alex Crypto", coins: 134500 },
+      { id: "u_3", name: "Sabbir Hossain BD", coins: 98100 },
+      { id: "u_4", name: "Elena Rostova", coins: 85200 },
+      { id: "u_5", name: "Rahim Ahmed", coins: 64100 },
+      { id: "u_6", name: "Tanvir Hasan", coins: 42000 },
+      { id: "u_7", name: "Viktor_Ton", coins: 31500 }
     ];
 
-    let availableUsers = [...allUsersList]; // Copy list to track unused names
-    const networks = ["TON", "TRC20", "BEP20"];
-    const amounts = ["1.00", "2.50", "5.00", "10.00", "1.50", "3.00", "7.50", "4.00"];
-
-    function getUniqueUser() {
-      // If all names used, reset array
-      if (availableUsers.length === 0) {
-        availableUsers = [...allUsersList];
+    window.addEventListener('DOMContentLoaded', function() {
+      // Sync Real Telegram Profile Data
+      const tgUser = tg && tg.initDataUnsafe ? tg.initDataUnsafe.user : null;
+      if (tgUser) {
+        currentUser.id = tgUser.id.toString();
+        currentUser.name = tgUser.first_name + (tgUser.last_name ? ' ' + tgUser.last_name : '');
+        document.getElementById('u-name').innerText = currentUser.name;
+        document.getElementById('u-id').innerText = currentUser.id;
+        if (tgUser.photo_url) {
+          document.getElementById('u-avatar').innerHTML = '<img src="' + tgUser.photo_url + '"/>';
+        } else {
+          document.getElementById('u-avatar').innerText = tgUser.first_name.charAt(0);
+        }
       }
-      // Pick random index, remove from list and return
-      const randomIndex = Math.floor(Math.random() * availableUsers.length);
-      const selectedUser = availableUsers[randomIndex];
-      availableUsers.splice(randomIndex, 1);
-      return selectedUser;
-    }
 
-    function addLiveWithdrawalItem() {
-      const feed = document.getElementById('live-withdraw-feed');
-      if (!feed) return;
+      // Add Current User to the Coin List
+      usersList.push(currentUser);
 
-      const randomUser = getUniqueUser();
-      const randomNet = networks[Math.floor(Math.random() * networks.length)];
-      const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
+      // Render Leaderboard initially
+      updateLeaderboard();
 
-      const newItem = document.createElement('div');
-      newItem.className = 'withdraw-item';
-      newItem.innerHTML = `
-        <div class="withdraw-user-info">
-          <div class="withdraw-user-icon"><i class="fas fa-check-circle"></i></div>
-          <div class="withdraw-user-details">
-            <h6>${randomUser}</h6>
-            <p>Just now • ${randomNet}</p>
+      // Live updates for Coin Ranks every 3 seconds
+      setInterval(simulateLiveCoinChanges, 3000);
+    });
+
+    function updateLeaderboard() {
+      // Sort users strictly by Coin Count (Highest to Lowest)
+      usersList.sort((a, b) => b.coins - a.coins);
+
+      const container = document.getElementById('leaderboard-container');
+      container.innerHTML = '';
+
+      usersList.forEach((user, index) => {
+        const rank = index + 1;
+        let rankClass = "rank-other";
+        if (rank === 1) rankClass = "rank-1";
+        else if (rank === 2) rankClass = "rank-2";
+        else if (rank === 3) rankClass = "rank-3";
+
+        const isMe = user.id === currentUser.id;
+
+        const item = document.createElement('div');
+        item.className = 'leaderboard-item' + (isMe ? ' highlight-me' : '');
+        item.innerHTML = `
+          <div class="lb-user">
+            <div class="rank-badge ${rankClass}">#${rank}</div>
+            <div class="lb-user-name">${user.name} ${isMe ? ' <span style="color:#38bdf8; font-size:11px;">(You)</span>' : ''}</div>
           </div>
-        </div>
-        <div class="withdraw-amount-status">
-          <span>+$${randomAmount} USDT</span>
-          <small>Paid</small>
-        </div>
-      `;
-
-      feed.insertBefore(newItem, feed.firstChild);
-
-      // Keep maximum 4 items on screen
-      if (feed.children.length > 4) {
-        feed.removeChild(feed.lastChild);
-      }
+          <div class="lb-user-coins">${user.coins.toLocaleString()} Coins</div>
+        `;
+        container.appendChild(item);
+      });
     }
 
-    function initLiveWithdrawals() {
-      // Add initial items
-      for (let i = 0; i < 3; i++) {
-        addLiveWithdrawalItem();
-      }
-      // Auto add new item every 7 seconds
-      setInterval(addLiveWithdrawalItem, 7000);
+    // Live Coin Increase Generator
+    function simulateLiveCoinChanges() {
+      // Select a random user (except current real user) to add coins
+      const otherUsers = usersList.filter(u => u.id !== currentUser.id);
+      const randomUser = otherUsers[Math.floor(Math.random() * otherUsers.length)];
+      
+      // Add random 100 to 500 coins
+      randomUser.coins += Math.floor(Math.random() * 5 + 1) * 100;
+
+      // Re-sort and render to show new Coin Ranking
+      updateLeaderboard();
     }
+
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.add('active');
+    }
+    //]]>
   </script>
 </body>
 </html>
