@@ -350,7 +350,9 @@
 function claimTask(taskId, reward, url) {
     // মনিট্যাগ অ্যাড লোড হয়েছে কিনা চেক করা
     if (typeof show_11717741 === 'function') {
-        show_11717741().then(() => {
+        
+        // অ্যাড দেখানো এবং রিওয়ার্ড দেওয়ার প্রমিস লজিক
+        Promise.resolve(show_11717741()).then(() => {
             // ১. ইউজার পুরো অ্যাড সফলভাবে দেখলে পয়েন্ট যুক্ত হবে
             const userId = currentUser.id.toString();
             
@@ -364,20 +366,18 @@ function claimTask(taskId, reward, url) {
                 window.open(url, '_blank');
             }
 
-            // ৩. রিওয়ার্ড অ্যালার্ট দেওয়া (এখানে ব্যাকটিক ব্যবহার করা হয়েছে)
+            // ৩. রিওয়ার্ড অ্যালার্ট দেওয়া
             alert(`🎉 Success! You've received ${reward} coins for watching the ad.`);
         }).catch((err) => {
             // অ্যাড মাঝপথে বন্ধ করলে বা লোড না হলে
             console.error("Ad error or closed early:", err);
             alert("⚠️ You must watch the full ad to claim your reward!");
         });
+
     } else {
         // যদি অ্যাড ব্লকড থাকে বা মনিট্যাগ লোড না হয়
         alert("Ad script not loaded properly. Please disable AdBlocker and try again.");
     }
-}
-    }
-}
 }
 
         function addNewTask() {
