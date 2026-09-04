@@ -463,10 +463,35 @@ function loadUserTasks() {
             if(!feedContainer) return;
             feedContainer.innerHTML = '<div class="feed-item"><div><div class="addr">T9zP...xK2m</div></div><div><div class="amt">+$2.50</div></div></div>';
         }
+function requestWithdrawal() {
+    const walletAddress = document.getElementById('walletAddress').value;
+    const minWithdraw = 100000;
+    
+    if (userCurrentBalance < minWithdraw) {
+        alert("Minimum withdrawal is 100,000 Coins ($1.00 USDT). You need " + (minWithdraw - userCurrentBalance).toLocaleString() + " more coins.");
+        return;
+    }
+    
+    if (!walletAddress || walletAddress.trim() === "") {
+        alert("Please enter your USDT BEP-20 wallet address.");
+        return;
+    }
 
-        function requestWithdrawal() {
-            alert("Withdrawal requested!");
-        }
+    // ডেটাবেজে উইথড্রল রিকোয়েস্ট পাঠানোর লজিক
+    db.ref('withdrawals').push({
+        userId: currentUser.id,
+        walletAddress: walletAddress,
+        amount: userCurrentBalance,
+        status: 'pending',
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+    }).then(function() {
+        alert("Withdrawal request submitted successfully!");
+        // ব্যালেন্স আপডেট করে জিরো করার লজিক
+        db.ref('users/' + currentUser.id + '/balance').set(0);
+    }).catch(function(error) {
+        alert("Failed to submit request: " + error.message);
+    });
+}
     </script>
 </body>
 </html>
