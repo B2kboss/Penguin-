@@ -466,7 +466,7 @@ function loadUserTasks() {
 function requestWithdrawal() {
     const walletAddress = document.getElementById('walletAddress').value;
     const minWithdraw = 100000;
-    
+    console.log("Button clicked, checking balance...");
     if (userCurrentBalance < minWithdraw) {
         alert("Minimum withdrawal is 100,000 Coins ($1.00 USDT). You need " + (minWithdraw - userCurrentBalance).toLocaleString() + " more coins.");
         return;
