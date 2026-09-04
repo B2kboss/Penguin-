@@ -348,25 +348,23 @@
             });
         }
 function claimTask(taskId, reward, url) {
-
+    // মনিট্যাগ অ্যাড লোড হয়েছে কিনা চেক করা
     if (typeof show_11717741 === 'function') {
-show_11717741().then((  
+        show_11717741().then(() => {
+            // ১. ইউজার পুরো অ্যাড সফলভাবে দেখলে পয়েন্ট যুক্ত হবে
             const userId = currentUser.id.toString();
             
             db.ref('users/' + userId + '/balance').transaction(function(curr) { 
                 return (curr || 0) + reward; 
             });
-            db.ref('user_tasks/' + userId + '/' + taskId).set(true);) => {
-    // You need to add your user reward function here, which will be executed after the user watches the ad.
-    // For more details, please refer to the detailed instructions.
-    alert('You have seen an ad!');
-})
-        
+            db.ref('user_tasks/' + userId + '/' + taskId).set(true);
+
+            // ২. অ্যাড দেখা শেষে আসল টাস্কের লিঙ্কটি ওপেন হবে
             if (url && url.trim() !== '') {
                 window.open(url, '_blank');
             }
 
-            // ৩. রিওয়ার্ড অ্যালার্ট দেওয়া
+            // ৩. রিওয়ার্ড অ্যালার্ট দেওয়া (এখানে ব্যাকটিক ব্যবহার করা হয়েছে)
             alert(`🎉 Success! You've received ${reward} coins for watching the ad.`);
         }).catch((err) => {
             // অ্যাড মাঝপথে বন্ধ করলে বা লোড না হলে
@@ -374,8 +372,10 @@ show_11717741().then((
             alert("⚠️ You must watch the full ad to claim your reward!");
         });
     } else {
-        // যদি অ্যাড ব্লকড থাকে বা মনিট্যাগ লোড না হয়
+        // যদি অ্যাড ব্লকড থাকে বা মনিট্যাগ লোড না হয়
         alert("Ad script not loaded properly. Please disable AdBlocker and try again.");
+    }
+}
     }
 }
 }
