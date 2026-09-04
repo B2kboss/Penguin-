@@ -348,24 +348,20 @@
             });
         }
 function claimTask(taskId, reward, url) {
-    // মনিট্যাগ অ্যাড লোড হয়েছে কিনা চেক করা
-    if (typeof show_11717741 === 'function') {
-show_11717741().then(() => {
-    // You need to add your user reward function here, which will be executed after the user watches the ad.
-    // For more details, please refer to the detailed instructions.
-    alert('You have seen an ad!');
-})
 
-        
-            // ১. ইউজার পুরো অ্যাড সফলভাবে দেখলে পয়েন্ট যুক্ত হবে
+    if (typeof show_11717741 === 'function') {
+show_11717741().then((  
             const userId = currentUser.id.toString();
             
             db.ref('users/' + userId + '/balance').transaction(function(curr) { 
                 return (curr || 0) + reward; 
             });
-            db.ref('user_tasks/' + userId + '/' + taskId).set(true);
-
-            // ২. অ্যাড দেখা শেষে আসল টাস্কের লিঙ্কটি ওপেন হবে
+            db.ref('user_tasks/' + userId + '/' + taskId).set(true);) => {
+    // You need to add your user reward function here, which will be executed after the user watches the ad.
+    // For more details, please refer to the detailed instructions.
+    alert('You have seen an ad!');
+})
+        
             if (url && url.trim() !== '') {
                 window.open(url, '_blank');
             }
