@@ -466,30 +466,36 @@ function loadUserTasks() {
 function requestWithdrawal() {
     const walletAddress = document.getElementById('walletAddress').value;
     const minWithdraw = 100000;
-    console.log("Button clicked, checking balance...");
-    if (userCurrentBalance < minWithdraw) {
-        alert("Minimum withdrawal is 100,000 Coins ($1.00 USDT). You need " + (minWithdraw - userCurrentBalance).toLocaleString() + " more coins.");
-        return;
-    }
-    
-    if (!walletAddress || walletAddress.trim() === "") {
-        alert("Please enter your USDT BEP-20 wallet address.");
-        return;
-    }
 
-    // ডেটাবেজে উইথড্রল রিকোয়েস্ট পাঠানোর লজিক
-    db.ref('withdrawals').push({
-        userId: currentUser.id,
-        walletAddress: walletAddress,
-        amount: userCurrentBalance,
-        status: 'pending',
-        timestamp: firebase.database.ServerValue.TIMESTAMP
-    }).then(function() {
-        alert("Withdrawal request submitted successfully!");
-        // ব্যালেন্স আপডেট করে জিরো করার লজিক
-        db.ref('users/' + currentUser.id + '/balance').set(0);
+    // সরাসরি ডেটাবেজ থেকে ব্যালেন্স নেওয়ার লজিক
+    db.ref('users/' + currentUser.id + '/balance').once('value').then(function(snapshot) {
+        const balance = snapshot.val() || 0;
+
+        if (balance < minWithdraw) {
+            alert("Minimum withdrawal is 100,000 Coins ($1.00 USDT). You need " + (minWithdraw - balance).toLocaleString() + " more coins.");
+            return;
+        }
+
+        if (!walletAddress || walletAddress.trim() === "") {
+            alert("Please enter your USDT BEP-20 wallet address.");
+            return;
+        }
+
+        db.ref('withdrawals').push({
+            userId: currentUser.id,
+            walletAddress: walletAddress,
+            amount: balance,
+            status: 'pending',
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        }).then(function() {
+            alert("Withdrawal request submitted successfully!");
+            db.ref('users/' + currentUser.id + '/balance').set(0);
+        }).catch(function(error) {
+            alert("Failed to submit request: " + error.message);
+        });
+
     }).catch(function(error) {
-        alert("Failed to submit request: " + error.message);
+        alert("Failed to fetch balance: " + error.message);
     });
 }
     </script>
