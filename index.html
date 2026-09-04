@@ -380,37 +380,82 @@ function claimTask(taskId, reward, url) {
     }
 }
 
-        function addNewTask() {
-            const title = document.getElementById('taskTitle').value;
-            const url = document.getElementById('taskUrl').value;
-            const reward = parseInt(document.getElementById('taskReward').value);
+       function addNewTask() {
+    const title = document.getElementById('taskTitle').value;
+    const url = document.getElementById('taskUrl').value;
+    const reward = parseInt(document.getElementById('taskReward').value);
+    const type = document.getElementById('taskType') ? document.getElementById('taskType').value : 'website';
+    const channel = document.getElementById('taskChannel') ? document.getElementById('taskChannel').value : '';
 
-            if(!title || !url || isNaN(reward)) return alert("Fill all fields!");
+    if (!title || isNaN(reward)) return alert("Fill required fields!");
 
-            db.ref('tasks').push({ title: title, url: url, reward: reward }).then(function() {
-                alert("Task Added!");
-                document.getElementById('taskTitle').value = '';
-                document.getElementById('taskUrl').value = '';
-                document.getElementById('taskReward').value = '';
-            });
-        }
+    // ফায়ারবেসে টাইপ সহ ডাটা সেভ করা হচ্ছে
+    db.ref('tasks').push({ 
+        title: title, 
+        url: url, 
+        reward: reward,
+        type: type,
+        channel: channel
+    }).then(function() {
+        alert("Task Added Successfully!");
+        document.getElementById('taskTitle').value = '';
+        document.getElementById('taskUrl').value = '';
+        document.getElementById('taskReward').value = '';
+        if(document.getElementById('taskChannel')) document.getElementById('taskChannel').value = '';
+    });
+}
 
-        function loadAdminTasks() {
-            db.ref('tasks').on('value', function(snapshot) {
-                const tasks = snapshot.val();
-                const container = document.getElementById('adminTaskList');
-                if(!container) return;
-                container.innerHTML = '';
-                if(!tasks) return;
+function loadAdminTasks() {
+    db.ref('tasks').on('value', function(snapshot) {
+        const tasks = snapshot.val();
+        const container = document.getElementById('adminTaskList');
+        if(!container) return;
+        container.innerHTML = '';
+        if(!tasks) return;
 
-                Object.keys(tasks).forEach(function(taskId) {
-                    const t = tasks[taskId];
-                    const div = document.createElement('div');
-                    div.style.cssText = "display:flex; justify-content:space-between; padding:8px; margin-top:5px; background:rgba(0,0,0,0.2);";
-                    div.innerHTML = '<span>' + t.title + '</span><button onclick="db.ref(\'tasks/' + taskId + '\').remove()">Delete</button>';
-                    container.appendChild(div);
-                });
-            });
+        Object.keys(tasks).forEach(function(taskId) {
+            const t = tasks[taskId];
+            const div = document.createElement('div');
+            div.style.cssText = "display:flex; justify-content:space-between; padding:8px; margin-top:5px; background:rgba(0,0,0,0.2);";
+            div.innerHTML = '<span>' + t.title + '</span><button onclick="db.ref(\'tasks/' + taskId + '\').remove()">Delete</button>';
+            container.appendChild(div);
+        });
+    });
+}
+
+// ইউজার প্যানেলের জন্য টাস্ক রেন্ডার করার লজিক (নিশ্চিত করুন এই লজিকটি ইউজার টাস্ক লিস্টে আছে)
+function loadUserTasks() {
+    db.ref('tasks').on('value', function(snapshot) {
+        const tasks = snapshot.val();
+        const container = document.getElementById('taskList');
+        if (!container) return;
+        container.innerHTML = '';
+        if (!tasks) return;
+
+        Object.keys(tasks).forEach(function(taskId) {
+            const t = tasks[taskId];
+            const div = document.createElement('div');
+            div.className = 'task-card'; // আপনার স্টাইল অনুযায়ী
+
+            // টাস্কের টাইপ যদি 'ads' হয় তবে claimTask কল হবে, অন্যথায় সাধারণ ফাংশন
+            let actionButton = '';
+            if (t.type === 'ads') {
+                actionButton = `<button class="btn-claim" onclick="claimTask('${taskId}', ${t.reward}, '${t.url || ''}')">Claim</button>`;
+            } else {
+                actionButton = `<button class="btn-start" onclick="claimTask('${taskId}', ${t.reward}, '${t.url || ''}')">Claim</button>`;
+            }
+
+            div.innerHTML = `
+                <div>
+                    <h4>${t.title}</h4>
+                    <p>+${t.reward} Coins</p>
+                </div>
+                ${actionButton}
+            `;
+            container.appendChild(div);
+        });
+    });
+}
         }
 
         function startLiveWithdrawFeed() {
